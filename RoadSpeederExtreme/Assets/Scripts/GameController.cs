@@ -9,14 +9,14 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        playerSpeed = 100;
+        playerSpeed = 130;
         speedIncreaseTimer = 0;
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (speedIncreaseTimer >= 1)
+        if (speedIncreaseTimer >= 0.4)
         {
             playerSpeed++;
             speedIncreaseTimer = 0;
