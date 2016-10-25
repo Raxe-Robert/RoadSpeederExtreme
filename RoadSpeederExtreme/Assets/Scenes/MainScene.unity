@@ -660,6 +660,42 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f39234a1286b7ab4dbd0043fa8bafba7, type: 2}
+    - target: {fileID: 2300000, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3480764dc5903b4d82dbf8aed54025f, type: 2}
+    - target: {fileID: 2300000, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b852bdf75e03ce49b04ee73a6b0454b, type: 2}
+    - target: {fileID: 2300000, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: f0e2d611f4e886f4aba29e2bcad1b781, type: 2}
+    - target: {fileID: 2300000, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1064a47f840502a44ba4503ee82a9306, type: 2}
+    - target: {fileID: 2300000, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9dd77467b79d6b4f9c4692bf89c7bf9, type: 2}
+    - target: {fileID: 2300002, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7a9f1a61117970f4e89f9c8b1e05934b, type: 2}
+    - target: {fileID: 2300002, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c3480764dc5903b4d82dbf8aed54025f, type: 2}
+    - target: {fileID: 100008, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
+      propertyPath: m_Name
+      value: Playercar
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0c6b54f9857bfa4298df1dc76c4d231, type: 3}
   m_IsPrefabParent: 0
