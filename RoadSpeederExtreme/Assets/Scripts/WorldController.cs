@@ -13,17 +13,15 @@ public class WorldController : MonoBehaviour
     int[] spawnzoneTrees;
 
     float playerSpeed;
-    float spawnrate = 2; //seconds
+    float spawnrate = 0; //seconds
 
     Vector3 tempSpawnPosition;
-    Quaternion trafficDirection;
 
     // Use this for initialization
     void Start()
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
-        trafficDirection = new Quaternion(0f, -90f, 0f, 0f);
     }
 
     // Update is called once per frame
@@ -44,15 +42,15 @@ public class WorldController : MonoBehaviour
     {
         //trees alongside the road
         //left
-        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0], spawnzoneTrees[1]), 0, Random.Range(2800, 3200));
+        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0], spawnzoneTrees[1]), 0, Random.Range(800, 1200));
         Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity);
 
         //right
-        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0] * -1, spawnzoneTrees[1] * -1), 0, Random.Range(2800, 3200));
+        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0] * -1, spawnzoneTrees[1] * -1), 0, Random.Range(800, 1200));
         Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity);
 
         //clouds
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 7; i++)
         {
             tempSpawnPosition.Set(Random.Range(-3500, 3500), Random.Range(20, 40), 2500);
             Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity);

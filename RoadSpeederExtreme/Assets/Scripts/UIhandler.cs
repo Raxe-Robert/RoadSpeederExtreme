@@ -6,6 +6,8 @@ public class UIhandler : MonoBehaviour {
 
     [SerializeField]
     Text playerSpeed;
+    [SerializeField]
+    Text playerScore;
 
     [SerializeField]
     GameController GameControllerScript;
@@ -18,5 +20,6 @@ public class UIhandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         playerSpeed.text = "Speed: " + GameControllerScript.playerSpeed.ToString();
-	}
+        playerScore.text = "Score: " + GameControllerScript.playerScore.ToString();
+    }
 }

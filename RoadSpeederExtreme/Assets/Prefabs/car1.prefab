@@ -34,10 +34,12 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000010115433256}
-  - 114: {fileID: 114000011642495496}
+  - 65: {fileID: 65000012006453534}
+  - 54: {fileID: 54000011915102634}
+  - 114: {fileID: 114000013404866634}
   m_Layer: 0
   m_Name: car1
-  m_TagString: Cars
+  m_TagString: Traffic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -325,7 +327,34 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013208637714}
   m_Mesh: {fileID: 4300002, guid: 3605a1e64e0c3454682609e5842670b9, type: 3}
---- !u!114 &114000011642495496
+--- !u!54 &54000011915102634
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010758449872}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65000012006453534
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010758449872}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.8151135, y: 1.1908798, z: 2.3762481}
+  m_Center: {x: -0.9038575, y: 0.09543991, z: 0.01174078}
+--- !u!114 &114000013404866634
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -333,7 +362,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010758449872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d39f300844da084b8977f6c5ee2b378, type: 3}
+  m_Script: {fileID: 11500000, guid: ea7a1eacf5b41a1499b5c7669a6a70d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 0

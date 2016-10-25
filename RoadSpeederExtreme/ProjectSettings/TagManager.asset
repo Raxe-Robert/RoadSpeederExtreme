@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Clouds
   - Trees
-  - Cars
+  - Traffic
   layers:
   - Default
   - TransparentFX

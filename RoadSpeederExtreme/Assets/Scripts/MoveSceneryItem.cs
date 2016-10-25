@@ -33,11 +33,6 @@ public class MoveSceneryItem : MonoBehaviour
             transform.Translate(0, 0, (playerSpeed / 5 * Time.deltaTime));
         }
 
-        if (this.tag == "Cars")
-        {
-            transform.Translate(playerSpeed * 2 * Time.deltaTime - 120 * Time.deltaTime, 0, 0);
-        }
-
         if (transform.position.z >= 5100)
             Destroy(this.gameObject);
 

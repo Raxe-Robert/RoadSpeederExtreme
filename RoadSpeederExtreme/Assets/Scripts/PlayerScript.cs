@@ -3,13 +3,16 @@ using System.Collections;
 
 public class PlayerScript : MonoBehaviour {
 
-    enum lanes { left, middle, right};
-    lanes currentLane;
+    [SerializeField]
+    GameController GameControllerScript;
+
+    public enum lanes { left, middle, right};
+    public lanes currentLane;
 
 	// Use this for initialization
 	void Start () {
         currentLane = lanes.middle;
-
+        GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
     }
 	
 	// Update is called once per frame
@@ -44,4 +47,42 @@ public class PlayerScript : MonoBehaviour {
         }
             
 	}
+
+    void OnTriggerEnter(Collider other)
+    {
+        MoveRoadItem otherScript = other.gameObject.GetComponent<MoveRoadItem>();
+        if (other.gameObject.tag == "Traffic")
+        {
+            //If the lanes are the same there is a collision
+            if (currentLane.ToString() == otherScript.currentLane.ToString())
+            {
+                Debug.Log("Game over, score: " + GameControllerScript.playerScore);
+            }
+            //Check for a near miss
+            else if (NearMiss(otherScript))
+            {
+                GameControllerScript.playerScore += 10;
+            }
+            //If there is one lane between playercar and traffic car
+            else
+            {
+                GameControllerScript.playerScore += 5;
+            }
+                
+        }
+    }
+
+    bool NearMiss(MoveRoadItem otherScript)
+    {
+        if (currentLane.ToString() == "middle")
+        {
+            return true;
+        }
+        else if (otherScript.currentLane.ToString() == "middle")
+        {
+            return true;
+        }
+
+        return false;
+    }
 }
