@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Car3_3
+  m_Name: Player1Car2
   m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION _GLOSSYREFLECTIONS_OFF
   m_LightmapFlags: 1
@@ -127,10 +127,10 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.8367347, g: 0.8367347, b: 0.04840614, a: 1}
+      second: {r: 0.39795917, g: 0.09208973, b: 0.09208973, a: 1}
     - first:
         name: _EmissionColor
-      second: {r: 0.8352942, g: 0.8352942, b: 0.04705883, a: 1}
+      second: {r: 0.39607847, g: 0.09019608, b: 0.09019608, a: 1}
     - first:
         name: _SpecColor
-      second: {r: 0.8352942, g: 0.8352942, b: 0.04705883, a: 1}
+      second: {r: 0.39607847, g: 0.09019608, b: 0.09019608, a: 1}
