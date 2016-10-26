@@ -549,6 +549,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 65000012006453534, guid: f14e3e0d8bd4b28439afdefedb17f5ba,
+        type: 2}
+      propertyPath: m_Size.x
+      value: 4.218943
+      objectReference: {fileID: 0}
+    - target: {fileID: 65000012006453534, guid: f14e3e0d8bd4b28439afdefedb17f5ba,
+        type: 2}
+      propertyPath: m_Center.x
+      value: -0.60644543
+      objectReference: {fileID: 0}
+    - target: {fileID: 65000012006453534, guid: f14e3e0d8bd4b28439afdefedb17f5ba,
+        type: 2}
+      propertyPath: m_Center.z
+      value: 0.011748219
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f14e3e0d8bd4b28439afdefedb17f5ba, type: 2}
   m_IsPrefabParent: 0
@@ -812,7 +827,7 @@ MonoBehaviour:
   - {fileID: 1000013915157916, guid: 340475d91bdfe8c4b8b5fbe89343ec3e, type: 2}
   - {fileID: 1000011831582844, guid: ea6b48edbc47f944894e973dbea94a51, type: 2}
   - {fileID: 1000010758449872, guid: f14e3e0d8bd4b28439afdefedb17f5ba, type: 2}
-  spawnzoneTrees: 5000000078000000
+  spawnzoneTrees: 50000000b4000000
 --- !u!114 &1077144393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1231,6 +1246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: {fileID: 1635484463}
   playerScore: {fileID: 1369748677}
+  scoreNotificationObject: {fileID: 114000010897834324, guid: 308ac6cee58072147942d0654abbc5d3,
+    type: 2}
   GameControllerScript: {fileID: 0}
 --- !u!1 &1752886729 stripped
 GameObject:
@@ -1595,16 +1612,16 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
-    m_Resolution: 3
+    m_Type: 2
+    m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.75
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
-  m_Flare: {fileID: 0}
+  m_Flare: {fileID: 12100000, guid: f3cd23d6d3e3d490cb471c69069c97a1, type: 2}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2

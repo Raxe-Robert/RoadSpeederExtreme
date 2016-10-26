@@ -7,6 +7,8 @@ public class MoveSceneryItem : MonoBehaviour
     [SerializeField]
     float playerSpeed;
 
+    bool playSpawnAnimation;
+
     GameController GameControllerScript;
 
 
@@ -15,6 +17,11 @@ public class MoveSceneryItem : MonoBehaviour
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
+
+        if (this.tag == "Clouds")
+            playSpawnAnimation = false;
+        else
+            playSpawnAnimation = true;
     }
 
     // Update is called once per frame
@@ -22,16 +29,38 @@ public class MoveSceneryItem : MonoBehaviour
     {
         playerSpeed = GameControllerScript.playerSpeed;
 
-        if (this.tag == "Trees")
+        if (playSpawnAnimation == true)
         {
-            transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime);
-        }
+            if (this.tag == "Trees")
+            {
+                transform.Translate(0, -2000 * Time.deltaTime, 0);
 
-        if (this.tag == "Clouds")
-        {
-            transform.Translate(0.1f, 0, 0.05f);
-            transform.Translate(0, 0, (playerSpeed / 5 * Time.deltaTime));
+                if (transform.position.y <= 45)
+                {
+                    var pos = transform.position;
+                    pos.y = Random.Range(30, 40);
+                    transform.position = pos;
+                    playSpawnAnimation = false;
+
+                }
+            }
+
+            
         }
+        else
+        {
+            if (this.tag == "Trees")
+            {
+                transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime);
+            }
+
+            if (this.tag == "Clouds")
+            {
+                transform.Translate(0.1f, 0, 0.05f);
+                transform.Translate(0, 0, (playerSpeed / 5 * Time.deltaTime));
+            }
+        }
+       
 
         if (transform.position.z >= 5100)
             Destroy(this.gameObject);

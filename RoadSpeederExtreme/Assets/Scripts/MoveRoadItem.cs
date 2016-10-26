@@ -7,6 +7,8 @@ public class MoveRoadItem : MonoBehaviour
     [SerializeField]
     float playerSpeed;
 
+    bool playSpawnAnimation;
+
     GameController GameControllerScript;
 
     public enum lanes { left, middle, right };
@@ -17,6 +19,7 @@ public class MoveRoadItem : MonoBehaviour
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
+        playSpawnAnimation = true;
 
         if (transform.position.x == 0) {
             currentLane = lanes.middle;
@@ -36,11 +39,29 @@ public class MoveRoadItem : MonoBehaviour
     {
         playerSpeed = GameControllerScript.playerSpeed;
 
-        if (this.tag == "Traffic")
+        if (playSpawnAnimation == true)
         {
-            transform.Translate(playerSpeed * 2 * Time.deltaTime - 120 * Time.deltaTime, 0, 0);
-        }
+            transform.Translate(0, -1000 * Time.deltaTime, 0);
 
+            if (transform.position.y <= 7)
+            {
+                var pos = transform.position;
+                pos.y = 7;
+                transform.position = pos;
+                playSpawnAnimation = false;
+
+            }
+
+
+        }
+        else
+        {
+            if (this.tag == "Traffic")
+            {
+                transform.Translate(playerSpeed * 2 * Time.deltaTime - 120 * Time.deltaTime, 0, 0);
+            }
+        }
+            
         if (transform.position.z >= 5100)
             Destroy(this.gameObject);
 
