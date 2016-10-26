@@ -262,8 +262,8 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 77b6bb24884f4044f9962ff2090561ee, type: 2}
-  - {fileID: 2100000, guid: 5e727d88ceb7b344bb7ecb9ff7e3ec06, type: 2}
+  - {fileID: 2100000, guid: 7a9f1a61117970f4e89f9c8b1e05934b, type: 2}
+  - {fileID: 2100000, guid: c3480764dc5903b4d82dbf8aed54025f, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -293,11 +293,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: 0451cced96ddc4a4f86a5e865a8befd2, type: 2}
-  - {fileID: 2100000, guid: 77b6bb24884f4044f9962ff2090561ee, type: 2}
-  - {fileID: 2100000, guid: b6a6eb2b9a3351e448b68b595b1261b2, type: 2}
-  - {fileID: 2100000, guid: 2e35456dfb45f1046b871a790a2c39d2, type: 2}
+  - {fileID: 2100000, guid: d83c27de651a21c459f345a591ca6530, type: 2}
+  - {fileID: 2100000, guid: 75b0f6b43bf41b145a1a4b023288ee78, type: 2}
+  - {fileID: 2100000, guid: f0e2d611f4e886f4aba29e2bcad1b781, type: 2}
   - {fileID: 2100000, guid: 674393c711790cf4681c7442da1df98d, type: 2}
-  - {fileID: 2100000, guid: d9671ca8901324540bdebb8a23a4a842, type: 2}
+  - {fileID: 2100000, guid: e9dd77467b79d6b4f9c4692bf89c7bf9, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -366,3 +366,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 0
+  currentLane: 0
