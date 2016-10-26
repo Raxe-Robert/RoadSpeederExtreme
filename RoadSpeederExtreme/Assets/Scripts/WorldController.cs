@@ -7,7 +7,17 @@ public class WorldController : MonoBehaviour
     [SerializeField]
     GameObject[] spawnableObjects;
 
+    [SerializeField]
+    GameObject[] spawnableTraffic;
+
+    GameObject scene;
+    GameObject Traffic;
+
     GameController GameControllerScript;
+
+    enum landscapePresets { forest, city, desert };
+    [SerializeField]
+    landscapePresets currentLandscape;
 
     [SerializeField]
     int[] spawnzoneTrees;
@@ -15,15 +25,23 @@ public class WorldController : MonoBehaviour
 
     float playerSpeed;
     float spawnrate = 0; //seconds
+    float landscapePresetDuration; //seconds
 
     Vector3 tempSpawnPosition;
 
     // Use this for initialization
     void Start()
     {
+        scene = GameObject.Find("scene");
+        Traffic = GameObject.Find("Traffic");
+
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
+        
         objectSpawnHeight = 2000;
+
+        landscapePresetDuration = Random.Range(20, 21);
+        currentLandscape = (landscapePresets)Random.Range(0, 3);
     }
 
     // Update is called once per frame
@@ -31,6 +49,37 @@ public class WorldController : MonoBehaviour
     {
         playerSpeed = GameControllerScript.playerSpeed;
 
+        //landscape control
+        if (landscapePresetDuration <= 0)
+        {
+            int randomPreset = Random.Range(0, 3);
+            switch (randomPreset)
+            {
+                case 0:
+                    if (currentLandscape == landscapePresets.city)
+                        goto case 1;
+                    currentLandscape = landscapePresets.city;
+                    break;
+                case 1:
+                    if (currentLandscape == landscapePresets.forest)
+                        goto case 2;
+                    currentLandscape = landscapePresets.forest;
+                    break;
+                case 2:
+                    if (currentLandscape == landscapePresets.desert)
+                        goto case 0;
+                    currentLandscape = landscapePresets.desert;
+                    break;
+                default:
+                    break;
+
+            }
+            landscapePresetDuration = Random.Range(15 - playerSpeed / 100, 21 - playerSpeed / 100);
+        }
+        else
+            landscapePresetDuration -= Time.deltaTime;
+
+        //Spawning
         if (spawnrate <= 0)
         {
             SpawnObjects();
@@ -38,25 +87,13 @@ public class WorldController : MonoBehaviour
         }
         else
             spawnrate -= Time.deltaTime * (playerSpeed / 100);
+
+
     }
 
     void SpawnObjects()
     {
-        //trees alongside the road
-        //left
-        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0], spawnzoneTrees[1]), Random.Range(objectSpawnHeight, objectSpawnHeight + 1000), Random.Range(1300, 2200));
-        Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity);
-
-        //right
-        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0] * -1, spawnzoneTrees[1] * -1), Random.Range(objectSpawnHeight, objectSpawnHeight + 1000), Random.Range(1300, 2200));
-        Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity);
-
-        //clouds
-        for (int i = 0; i < 7; i++)
-        {
-            tempSpawnPosition.Set(Random.Range(-3500, 3500), Random.Range(20, 40), 2500);
-            Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity);
-        }
+        GameObject lastCreatedObject;
 
         //cars
         //1 or 2
@@ -73,21 +110,86 @@ public class WorldController : MonoBehaviour
             switch (laneSpawn)
             {
                 case 1:
-                    tempSpawnPosition.Set(35, objectSpawnHeight, 3000);
+                    tempSpawnPosition.Set(35, 7, 3000);
 
                     break;
                 case 2:
-                    tempSpawnPosition.Set(0,objectSpawnHeight, 3000);
+                    tempSpawnPosition.Set(0, 7, 3000);
                     break;
                 case 3:
-                    tempSpawnPosition.Set(-35, objectSpawnHeight, 3000);
+                    tempSpawnPosition.Set(-35, 7, 3000);
                     break;
                 default:
                     break;
             }
 
-            int randomCarModel = Random.Range(2, 4);
-            Instantiate(spawnableObjects[randomCarModel], tempSpawnPosition, Quaternion.Euler(0, -90, 0));
+            int randomCarModel = Random.Range(0, spawnableTraffic.Length);
+            lastCreatedObject = Instantiate(spawnableTraffic[randomCarModel], tempSpawnPosition, Quaternion.Euler(0, -90, 0)) as GameObject;
+            lastCreatedObject.transform.SetParent(Traffic.transform);
         }
+
+        switch (currentLandscape)
+        {
+            case landscapePresets.forest:
+                //trees alongside the road
+                //trees and bushes left
+                for (int i = 0; i < 20; i++)
+                {
+                    //tree
+                    tempSpawnPosition.Set(Random.Range(80, 3000), Random.Range(30, 40), Random.Range(300, 1200));
+                    lastCreatedObject = Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+
+                    //bush
+                    tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(1300, 2200));
+                    lastCreatedObject = Instantiate(spawnableObjects[2], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                //trees and bushes right
+                for (int i = 0; i < 20; i++)
+                {
+                    //tree
+                    tempSpawnPosition.Set(Random.Range(-80, -3000), Random.Range(30, 40), Random.Range(300, 1200));
+                    lastCreatedObject = Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+
+                    //bush
+                    tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(300, 1200));
+                    lastCreatedObject = Instantiate(spawnableObjects[2], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+
+                //
+
+                //clouds
+                for (int i = 0; i < 7; i++)
+                {
+                    tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(160, 220), 1500);
+                    lastCreatedObject = Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                break;
+            case landscapePresets.city:
+                //clouds
+                for (int i = 0; i < 7; i++)
+                {
+                    tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(160, 220), 1500);
+                    lastCreatedObject = Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                break;
+            case landscapePresets.desert:
+                //clouds
+                for (int i = 0; i < 7; i++)
+                {
+                    tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(160, 220), 1500);
+                    lastCreatedObject = Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                break;
+            default:
+                break;
+        }
+        
     }
 }

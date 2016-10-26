@@ -19,7 +19,7 @@ public class MoveRoadItem : MonoBehaviour
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
-        playSpawnAnimation = true;
+        playSpawnAnimation = false; //set to true
 
         if (transform.position.x == 0) {
             currentLane = lanes.middle;

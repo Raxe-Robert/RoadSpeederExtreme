@@ -18,11 +18,8 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //Calculate score
-
-
         //Increase speed every     v   by 1
-        if (speedIncreaseTimer >= 0.4)
+        if (speedIncreaseTimer >= 0.2)
         {
             playerSpeed++;
             playerScore++;

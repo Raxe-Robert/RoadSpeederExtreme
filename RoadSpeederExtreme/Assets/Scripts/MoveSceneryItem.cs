@@ -21,7 +21,7 @@ public class MoveSceneryItem : MonoBehaviour
         if (this.tag == "Clouds")
             playSpawnAnimation = false;
         else
-            playSpawnAnimation = true;
+            playSpawnAnimation = false; //set to true
     }
 
     // Update is called once per frame
@@ -44,12 +44,23 @@ public class MoveSceneryItem : MonoBehaviour
 
                 }
             }
+            if (this.tag == "Bushes")
+            {
+                transform.Translate(0, -2000 * Time.deltaTime, 0);
 
-            
+                if (transform.position.y <= 8.7f)
+                {
+                    var pos = transform.position;
+                    pos.y = 8.7f;
+                    transform.position = pos;
+                    playSpawnAnimation = false;
+
+                }
+            }
         }
         else
         {
-            if (this.tag == "Trees")
+            if (this.tag == "Trees" || this.tag == "Bushes")
             {
                 transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime);
             }

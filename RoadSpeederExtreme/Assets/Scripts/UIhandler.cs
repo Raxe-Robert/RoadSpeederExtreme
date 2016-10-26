@@ -29,15 +29,17 @@ public class UIhandler : MonoBehaviour {
         playerSpeed.text = "Speed: " + GameControllerScript.playerSpeed.ToString();
         playerScore.text = "Score: " + GameControllerScript.playerScore.ToString();
 
-        foreach(var text in scoreNotifications)
+        for(int i = scoreNotifications.Count -1; i >= 0; i--)
         {
+            var text = scoreNotifications[i];
             var pos = text.rectTransform.anchoredPosition;
             pos.y += 2;
             text.rectTransform.anchoredPosition = pos;
 
-            if (text.rectTransform.anchoredPosition.y >= Screen.height)
+            if (text.rectTransform.anchoredPosition.y >= Screen.height / 4)
             {
-                Destroy(text);
+                Destroy(text.gameObject);
+                scoreNotifications.RemoveAt(i);
             }
         }
     }
