@@ -28,7 +28,7 @@ ModelImporter:
     4300000: Cylinder
     4300002: Cube
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
