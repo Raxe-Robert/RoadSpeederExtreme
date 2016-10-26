@@ -11,6 +11,7 @@ public class WorldController : MonoBehaviour
 
     [SerializeField]
     int[] spawnzoneTrees;
+    int objectSpawnHeight;
 
     float playerSpeed;
     float spawnrate = 0; //seconds
@@ -22,6 +23,7 @@ public class WorldController : MonoBehaviour
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
+        objectSpawnHeight = 2000;
     }
 
     // Update is called once per frame
@@ -42,11 +44,11 @@ public class WorldController : MonoBehaviour
     {
         //trees alongside the road
         //left
-        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0], spawnzoneTrees[1]), 0, Random.Range(800, 1200));
+        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0], spawnzoneTrees[1]), Random.Range(objectSpawnHeight, objectSpawnHeight + 1000), Random.Range(1300, 2200));
         Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity);
 
         //right
-        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0] * -1, spawnzoneTrees[1] * -1), 0, Random.Range(800, 1200));
+        tempSpawnPosition.Set(Random.Range(spawnzoneTrees[0] * -1, spawnzoneTrees[1] * -1), Random.Range(objectSpawnHeight, objectSpawnHeight + 1000), Random.Range(1300, 2200));
         Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity);
 
         //clouds
@@ -59,21 +61,26 @@ public class WorldController : MonoBehaviour
         //cars
         //1 or 2
         int tempAmountCars = Random.Range(1, 3);
+        int laneIsUsed = -1;
         for (int i = 0; i < tempAmountCars; i++)
         {
             int laneSpawn = Random.Range(1, 4);
+            while (laneSpawn == laneIsUsed)
+                laneSpawn = Random.Range(1, 4);
+
+            laneIsUsed = laneSpawn;
 
             switch (laneSpawn)
             {
                 case 1:
-                    tempSpawnPosition.Set(35, 7, 2500);
+                    tempSpawnPosition.Set(35, objectSpawnHeight, 3000);
 
                     break;
                 case 2:
-                    tempSpawnPosition.Set(0, 7, 2500);
+                    tempSpawnPosition.Set(0,objectSpawnHeight, 3000);
                     break;
                 case 3:
-                    tempSpawnPosition.Set(-35, 7, 2500);
+                    tempSpawnPosition.Set(-35, objectSpawnHeight, 3000);
                     break;
                 default:
                     break;
