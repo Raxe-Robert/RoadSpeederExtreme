@@ -5,13 +5,17 @@ public class WorldController : MonoBehaviour
 {
 
     [SerializeField]
-    GameObject[] spawnableObjects;
+    GameObject[] spawnableNature;
 
     [SerializeField]
     GameObject[] spawnableTraffic;
 
+    [SerializeField]
+    GameObject[] spawnableBuildings;
+
     GameObject scene;
     GameObject Traffic;
+    GameObject lastCreatedObject;
 
     GameController GameControllerScript;
 
@@ -21,7 +25,6 @@ public class WorldController : MonoBehaviour
 
     [SerializeField]
     int[] spawnzoneTrees;
-    int objectSpawnHeight;
 
     float playerSpeed;
     float spawnrate = 0; //seconds
@@ -37,11 +40,17 @@ public class WorldController : MonoBehaviour
 
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
-        
-        objectSpawnHeight = 2000;
 
         landscapePresetDuration = Random.Range(20, 21);
         currentLandscape = (landscapePresets)Random.Range(0, 3);
+
+        //clouds
+        for (int i = 0; i < 200; i++)
+        {
+            tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(340, 350), Random.Range(1500, 5000));
+            lastCreatedObject = Instantiate(spawnableNature[1], tempSpawnPosition, Quaternion.identity) as GameObject;
+            lastCreatedObject.transform.SetParent(scene.transform);
+        }
     }
 
     // Update is called once per frame
@@ -93,8 +102,6 @@ public class WorldController : MonoBehaviour
 
     void SpawnObjects()
     {
-        GameObject lastCreatedObject;
-
         //cars
         //1 or 2
         int tempAmountCars = Random.Range(1, 3);
@@ -133,59 +140,53 @@ public class WorldController : MonoBehaviour
             case landscapePresets.forest:
                 //trees alongside the road
                 //trees and bushes left
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 50; i++)
                 {
                     //tree
                     tempSpawnPosition.Set(Random.Range(80, 3000), Random.Range(30, 40), Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.identity) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
                     //bush
                     tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(1300, 2200));
-                    lastCreatedObject = Instantiate(spawnableObjects[2], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.identity) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 //trees and bushes right
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 50; i++)
                 {
                     //tree
                     tempSpawnPosition.Set(Random.Range(-80, -3000), Random.Range(30, 40), Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableObjects[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.identity) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
                     //bush
                     tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableObjects[2], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.identity) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
-
-                //
-
-                //clouds
-                for (int i = 0; i < 7; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(160, 220), 1500);
-                    lastCreatedObject = Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
-                }
+                
                 break;
             case landscapePresets.city:
-                //clouds
-                for (int i = 0; i < 7; i++)
+                //buildings
+                //buildings left
+                for (int i = 0; i < 5; i++)
                 {
-                    tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(160, 220), 1500);
-                    lastCreatedObject = Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    //tree
+                    tempSpawnPosition.Set(Random.Range(200, 3000), Random.Range(30, 40), Random.Range(300, 1200));
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                //buildings right
+                for (int i = 0; i < 5; i++)
+                {
+                    //tree
+                    tempSpawnPosition.Set(Random.Range(-200, -3000), Random.Range(30, 40), Random.Range(300, 1200));
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.identity) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 break;
             case landscapePresets.desert:
-                //clouds
-                for (int i = 0; i < 7; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(160, 220), 1500);
-                    lastCreatedObject = Instantiate(spawnableObjects[1], tempSpawnPosition, Quaternion.identity) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
-                }
                 break;
             default:
                 break;
