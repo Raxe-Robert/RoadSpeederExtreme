@@ -19,9 +19,12 @@ public class WorldController : MonoBehaviour
 
     GameController GameControllerScript;
 
-    enum landscapePresets { forest, city, desert };
+    enum landscapePresets { forest, city, desert, ocean };
     [SerializeField]
     landscapePresets currentLandscape;
+
+    [SerializeField]
+    Material[] Groundmaterials;
 
     [SerializeField]
     int[] spawnzoneTrees;
@@ -32,6 +35,7 @@ public class WorldController : MonoBehaviour
 
     Vector3 tempSpawnPosition;
 
+    int[] graden = { 0, 90, 180, 270 };
     // Use this for initialization
     void Start()
     {
@@ -42,7 +46,7 @@ public class WorldController : MonoBehaviour
         playerSpeed = GameControllerScript.playerSpeed;
 
         landscapePresetDuration = Random.Range(20, 21);
-        currentLandscape = (landscapePresets)Random.Range(0, 3);
+        currentLandscape = (landscapePresets)Random.Range(0, 4);
 
         //clouds
         for (int i = 0; i < 250; i++)
@@ -61,13 +65,14 @@ public class WorldController : MonoBehaviour
         //landscape control
         if (landscapePresetDuration <= 0)
         {
-            int randomPreset = Random.Range(0, 3);
+            int randomPreset = Random.Range(0, 4);
             switch (randomPreset)
             {
                 case 0:
                     if (currentLandscape == landscapePresets.city)
                         goto case 1;
                     currentLandscape = landscapePresets.city;
+                    
                     break;
                 case 1:
                     if (currentLandscape == landscapePresets.forest)
@@ -76,8 +81,13 @@ public class WorldController : MonoBehaviour
                     break;
                 case 2:
                     if (currentLandscape == landscapePresets.desert)
-                        goto case 0;
+                        goto case 3;
                     currentLandscape = landscapePresets.desert;
+                    break;
+                case 3:
+                    if (currentLandscape == landscapePresets.ocean)
+                        goto case 0;
+                    currentLandscape = landscapePresets.ocean;
                     break;
                 default:
                     break;
@@ -170,25 +180,27 @@ public class WorldController : MonoBehaviour
             case landscapePresets.city:
                 //buildings
                 //buildings left
+                //int[] graden = { 0, 90, 180, 270 };
                 for (int i = 0; i < 5; i++)
                 {
+                    
                     //Building
-                    tempSpawnPosition.Set(Random.Range(250, 3000), Random.Range(30, 40), Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    tempSpawnPosition.Set(Random.Range(300, 3000), Random.Range(30, 40), Random.Range(-500, 0));
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 //buildings right
                 for (int i = 0; i < 5; i++)
                 {
                     //Building
-                    tempSpawnPosition.Set(Random.Range(-250, -3000), Random.Range(30, 40), Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    tempSpawnPosition.Set(Random.Range(-300, -3000), Random.Range(30, 40), Random.Range(-500, 0));
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 break;
             case landscapePresets.desert:
                 //Cactus
-                for (int i = 0; i < 40; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     tempSpawnPosition.Set(Random.Range(80, 3000), Random.Range(30, 40), Random.Range(-1000, 0));
                     lastCreatedObject = Instantiate(spawnableNature[4], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
@@ -202,11 +214,35 @@ public class WorldController : MonoBehaviour
                 for (int i = 0; i < 1; i++)
                 {
                     tempSpawnPosition.Set(Random.Range(1000, 3000), 7.8f, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                     
                     tempSpawnPosition.Set(Random.Range(-1000, -3000), 7.8f, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                break;
+            case landscapePresets.ocean:
+                //Bridge
+                for (int i = 0; i < 1; i++)
+                {
+                    tempSpawnPosition.Set(0, 0, 0);
+                    lastCreatedObject = Instantiate(spawnableBuildings[1], tempSpawnPosition, Quaternion.Euler(0, 0, 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+
+                    tempSpawnPosition.Set(0,0,340);
+                    lastCreatedObject = Instantiate(spawnableBuildings[1], tempSpawnPosition, Quaternion.Euler(0, 0, 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                //Waves
+                for (int i = 0; i < 1; i++)
+                {
+                    tempSpawnPosition.Set(Random.Range(250, 1500), 7.8f, Random.Range(-200, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[6], tempSpawnPosition, Quaternion.Euler(0, 90, 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+
+                    tempSpawnPosition.Set(Random.Range(-250, -1500), 7.8f, Random.Range(-200, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[6], tempSpawnPosition, Quaternion.Euler(0, 90, 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 break;
