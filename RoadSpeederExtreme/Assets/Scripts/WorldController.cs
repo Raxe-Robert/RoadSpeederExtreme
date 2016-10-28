@@ -45,9 +45,9 @@ public class WorldController : MonoBehaviour
         currentLandscape = (landscapePresets)Random.Range(0, 3);
 
         //clouds
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 250; i++)
         {
-            tempSpawnPosition.Set(Random.Range(-2500, 2500), Random.Range(340, 350), Random.Range(1500, 5000));
+            tempSpawnPosition.Set(Random.Range(-4000, 4000), Random.Range(680, 700), Random.Range(-3000, 2800));
             lastCreatedObject = Instantiate(spawnableNature[1], tempSpawnPosition, Quaternion.identity) as GameObject;
             lastCreatedObject.transform.SetParent(scene.transform);
         }
@@ -117,14 +117,14 @@ public class WorldController : MonoBehaviour
             switch (laneSpawn)
             {
                 case 1:
-                    tempSpawnPosition.Set(35, 7, 3000);
+                    tempSpawnPosition.Set(35, 7, 2000);
 
                     break;
                 case 2:
-                    tempSpawnPosition.Set(0, 7, 3000);
+                    tempSpawnPosition.Set(0, 7, 2000);
                     break;
                 case 3:
-                    tempSpawnPosition.Set(-35, 7, 3000);
+                    tempSpawnPosition.Set(-35, 7, 2000);
                     break;
                 default:
                     break;
@@ -143,26 +143,26 @@ public class WorldController : MonoBehaviour
                 for (int i = 0; i < 50; i++)
                 {
                     //tree
-                    tempSpawnPosition.Set(Random.Range(80, 3000), Random.Range(30, 40), Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    tempSpawnPosition.Set(Random.Range(80, 3000), Random.Range(30, 40), Random.Range(-900, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
                     //bush
-                    tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(1300, 2200));
-                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(-900, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 //trees and bushes right
                 for (int i = 0; i < 50; i++)
                 {
                     //tree
-                    tempSpawnPosition.Set(Random.Range(-80, -3000), Random.Range(30, 40), Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    tempSpawnPosition.Set(Random.Range(-80, -3000), Random.Range(30, 40), Random.Range(-900, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
                     //bush
-                    tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(-900, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 
@@ -172,21 +172,43 @@ public class WorldController : MonoBehaviour
                 //buildings left
                 for (int i = 0; i < 5; i++)
                 {
-                    //tree
-                    tempSpawnPosition.Set(Random.Range(200, 3000), Random.Range(30, 40), Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    //Building
+                    tempSpawnPosition.Set(Random.Range(250, 3000), Random.Range(30, 40), Random.Range(-200, 0));
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 //buildings right
                 for (int i = 0; i < 5; i++)
                 {
-                    //tree
-                    tempSpawnPosition.Set(Random.Range(-200, -3000), Random.Range(30, 40), Random.Range(300, 1200));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.identity) as GameObject;
+                    //Building
+                    tempSpawnPosition.Set(Random.Range(-250, -3000), Random.Range(30, 40), Random.Range(-200, 0));
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 break;
             case landscapePresets.desert:
+                //Cactus
+                for (int i = 0; i < 40; i++)
+                {
+                    tempSpawnPosition.Set(Random.Range(80, 3000), Random.Range(30, 40), Random.Range(-1000, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[4], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                    
+                    tempSpawnPosition.Set(Random.Range(-80, -3000), Random.Range(30, 40), Random.Range(-1000, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[4], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
+                //DesertFormation
+                for (int i = 0; i < 1; i++)
+                {
+                    tempSpawnPosition.Set(Random.Range(1000, 3000), 7.8f, Random.Range(-200, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                    
+                    tempSpawnPosition.Set(Random.Range(-1000, -3000), 7.8f, Random.Range(-200, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+                }
                 break;
             default:
                 break;
