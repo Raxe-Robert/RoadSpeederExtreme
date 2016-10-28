@@ -7,13 +7,21 @@ public class MoveSceneryItem : MonoBehaviour
     [SerializeField]
     float playerSpeed;
 
-    GameController GameControllerScript;
+    bool once;
 
+    GameController GameControllerScript;
+    WorldController WorldControllerScript;
+
+    void OnEnable()
+    {
+        once = false;
+    }
 
     // Use this for initialization
     void Start()
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
+        WorldControllerScript = GameObject.Find("GameScripts").GetComponent<WorldController>();
         playerSpeed = GameControllerScript.playerSpeed;
     }
 
@@ -33,6 +41,34 @@ public class MoveSceneryItem : MonoBehaviour
                 pos.z = -3000;
                 transform.position = pos;
             }
+        }
+        else if (this.tag == "Terrain")
+        {
+            if (transform.position.z < 2500)
+                transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
+
+            if (transform.position.z >= 100 && once == false)
+            {
+                foreach (var terrain in WorldControllerScript.LandscapeTerrain)
+                {
+                    if (terrain.name != this.name)
+                    {
+                        terrain.SetActive(false);
+
+                        var pos = terrain.transform.position;
+                        pos.z = -5000;
+                        terrain.transform.position = pos;
+                    }
+                }
+                once = true;
+            }
+        }
+        else if (this.tag == "Bridges")
+        {
+            transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
+
+            if (transform.position.z >= 5600)
+                Destroy(this.gameObject);
         }
         else
         {

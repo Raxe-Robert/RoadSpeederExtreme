@@ -9,6 +9,8 @@ TagManager:
   - Bushes
   - Traffic
   - Buildings
+  - Bridges
+  - Terrain
   layers:
   - Default
   - TransparentFX
