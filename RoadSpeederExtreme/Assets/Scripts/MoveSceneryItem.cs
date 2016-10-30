@@ -7,14 +7,14 @@ public class MoveSceneryItem : MonoBehaviour
     [SerializeField]
     float playerSpeed;
 
-    bool once;
+    bool disableAllOtherTerrains;
 
     GameController GameControllerScript;
     WorldController WorldControllerScript;
 
     void OnEnable()
     {
-        once = false;
+        disableAllOtherTerrains = true;
     }
 
     // Use this for initialization
@@ -44,23 +44,28 @@ public class MoveSceneryItem : MonoBehaviour
         }
         else if (this.tag == "Terrain")
         {
-            if (transform.position.z < 2500)
+            if (transform.position.z <= 1000)
                 transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
 
-            if (transform.position.z >= 100 && once == false)
+            if (transform.position.z > 1000 && disableAllOtherTerrains == false)
             {
                 foreach (var terrain in WorldControllerScript.LandscapeTerrain)
                 {
-                    if (terrain.name != this.name)
+                    if (terrain.name != this.name && terrain.transform.position.z > 1000)
                     {
-                        terrain.SetActive(false);
+                        var posOther = terrain.transform.position;
+                        posOther.z = -5000;
+                        terrain.transform.position = posOther;
 
-                        var pos = terrain.transform.position;
-                        pos.z = -5000;
-                        terrain.transform.position = pos;
+                        terrain.SetActive(false);
                     }
                 }
-                once = true;
+
+                var pos = transform.position;
+                pos.y = -0.5f;
+                transform.position = pos;
+
+                disableAllOtherTerrains = true;
             }
         }
         else if (this.tag == "Bridges")

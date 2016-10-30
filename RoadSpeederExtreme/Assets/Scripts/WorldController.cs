@@ -20,6 +20,8 @@ public class WorldController : MonoBehaviour
     GameController GameControllerScript;
 
     enum landscapePresets { forest, city, desert, ocean };
+    
+    landscapePresets previousLandscape;
     [SerializeField]
     landscapePresets currentLandscape;
 
@@ -31,7 +33,7 @@ public class WorldController : MonoBehaviour
 
     float playerSpeed;
     float spawnrate = 0; //seconds
-    float landscapePresetDuration; //seconds
+    float landscapeDuration; //seconds
 
     Vector3 tempSpawnPosition;
 
@@ -45,9 +47,8 @@ public class WorldController : MonoBehaviour
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
 
-        landscapePresetDuration = Random.Range(20, 30);
-        currentLandscape = (landscapePresets)Random.Range(0, 3);
-        ChangeLandscapeTerrain();
+        landscapeDuration = Random.Range(20, 30);
+        ChangeLandscape();
 
         //clouds
         for (int i = 0; i < 250; i++)
@@ -64,43 +65,13 @@ public class WorldController : MonoBehaviour
         playerSpeed = GameControllerScript.playerSpeed;
 
         //landscape control
-        if (landscapePresetDuration <= 0)
+        if (landscapeDuration <= 0)
         {
-            int randomPreset = Random.Range(0, 4);
-            switch (randomPreset)
-            {
-                case 0:
-                    if (currentLandscape == landscapePresets.city)
-                        goto case 1;
-                    currentLandscape = landscapePresets.city;
-                    landscapePresetDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
-                    break;
-                case 1:
-                    if (currentLandscape == landscapePresets.forest)
-                        goto case 2;
-                    currentLandscape = landscapePresets.forest;
-                    landscapePresetDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
-                    break;
-                case 2:
-                    if (currentLandscape == landscapePresets.desert)
-                        goto case 3;
-                    currentLandscape = landscapePresets.desert;
-                    landscapePresetDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
-                    break;
-                case 3:
-                    if (currentLandscape == landscapePresets.ocean)
-                        goto case 0;
-                    currentLandscape = landscapePresets.ocean;
-                    landscapePresetDuration = 3;
-                    break;
-                default:
-                    break;
-            }
-            ChangeLandscapeTerrain();
+            ChangeLandscape();
             spawnrate = 2;
         }
         else
-            landscapePresetDuration -= Time.deltaTime;
+            landscapeDuration -= Time.deltaTime;
 
         //Spawning
         if (spawnrate <= 0)
@@ -110,18 +81,53 @@ public class WorldController : MonoBehaviour
         }
         else
             spawnrate -= Time.deltaTime * (playerSpeed / 100);
-
-
     }
 
-    void ChangeLandscapeTerrain()
+    void ChangeLandscape()
     {
+        //Random landscape preset
+        int randomPreset = Random.Range(0, 4);
+        switch (randomPreset)
+        {
+            case 0:
+                if (currentLandscape == landscapePresets.city || previousLandscape == landscapePresets.city)
+                    goto case 1;
+                previousLandscape = currentLandscape;
+                currentLandscape = landscapePresets.city;
+                landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
+                break;
+            case 1:
+                if (currentLandscape == landscapePresets.forest || previousLandscape == landscapePresets.forest)
+                    goto case 2;
+                previousLandscape = currentLandscape;
+                currentLandscape = landscapePresets.forest;
+                landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
+                break;
+            case 2:
+                if (currentLandscape == landscapePresets.desert || previousLandscape == landscapePresets.desert)
+                    goto case 3;
+                previousLandscape = currentLandscape;
+                currentLandscape = landscapePresets.desert;
+                landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
+                break;
+            case 3:
+                if (currentLandscape == landscapePresets.ocean || previousLandscape == landscapePresets.ocean)
+                    goto case 0;
+                previousLandscape = currentLandscape;
+                currentLandscape = landscapePresets.ocean;
+                landscapeDuration = 2;
+                break;
+            default:
+                break;
+        }
+
+        //Match terrain with landscape
         var currentTerrainNumber = -1;
         switch (currentLandscape)
         {
             case landscapePresets.city:
                 var pos = LandscapeTerrain[0].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[0].transform.position = pos;
 
                 LandscapeTerrain[0].SetActive(true);
@@ -130,7 +136,7 @@ public class WorldController : MonoBehaviour
                 break;
             case landscapePresets.forest:
                 pos = LandscapeTerrain[1].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[1].transform.position = pos;
 
                 LandscapeTerrain[1].SetActive(true);
@@ -139,7 +145,7 @@ public class WorldController : MonoBehaviour
                 break;
             case landscapePresets.desert:
                 pos = LandscapeTerrain[2].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[2].transform.position = pos;
 
                 LandscapeTerrain[2].SetActive(true);
@@ -148,7 +154,7 @@ public class WorldController : MonoBehaviour
                 break;
             case landscapePresets.ocean:
                 pos = LandscapeTerrain[3].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[3].transform.position = pos;
 
                 LandscapeTerrain[3].SetActive(true);
@@ -156,12 +162,20 @@ public class WorldController : MonoBehaviour
                 currentTerrainNumber = 3;
                 break;
         }
+
+        //For all other terrains do:
         for (int i = 0; i < 4; i++)
         {
-            if (i != currentTerrainNumber)
+            if (i != currentTerrainNumber && LandscapeTerrain[i].transform.position.z <= 1000)
             {
                 var pos = LandscapeTerrain[i].transform.position;
-                pos.y = -1;
+                pos.y = -0.25f;
+
+                if(LandscapeTerrain[i].activeInHierarchy == false)
+                {
+                    pos.z = -5000;
+                }
+
                 LandscapeTerrain[i].transform.position = pos;
             }
         }
@@ -210,7 +224,7 @@ public class WorldController : MonoBehaviour
                 for (int i = 0; i < 50; i++)
                 {
                     //tree
-                    tempSpawnPosition.Set(Random.Range(80, 3000), Random.Range(30, 40), Random.Range(-900, 0));
+                    tempSpawnPosition.Set(Random.Range(80, 3000), 44, Random.Range(-900, 0));
                     lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
@@ -223,7 +237,7 @@ public class WorldController : MonoBehaviour
                 for (int i = 0; i < 50; i++)
                 {
                     //tree
-                    tempSpawnPosition.Set(Random.Range(-80, -3000), Random.Range(30, 40), Random.Range(-900, 0));
+                    tempSpawnPosition.Set(Random.Range(-80, -3000), 44, Random.Range(-900, 0));
                     lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
@@ -269,11 +283,11 @@ public class WorldController : MonoBehaviour
                 //DesertFormation
                 for (int i = 0; i < 1; i++)
                 {
-                    tempSpawnPosition.Set(Random.Range(1000, 3000), 7.8f, Random.Range(-200, 0));
+                    tempSpawnPosition.Set(Random.Range(1000, 3000), 0, Random.Range(-200, 0));
                     lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                     
-                    tempSpawnPosition.Set(Random.Range(-1000, -3000), 7.8f, Random.Range(-200, 0));
+                    tempSpawnPosition.Set(Random.Range(-1000, -3000), 0, Random.Range(-200, 0));
                     lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
