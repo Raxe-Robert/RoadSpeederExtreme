@@ -47,7 +47,7 @@ public class MoveSceneryItem : MonoBehaviour
             if (transform.position.z <= 1000)
                 transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
 
-            if (transform.position.z > 1000 && disableAllOtherTerrains == false)
+            if (transform.position.z > 1000 && disableAllOtherTerrains == true)
             {
                 foreach (var terrain in WorldControllerScript.LandscapeTerrain)
                 {
@@ -65,7 +65,7 @@ public class MoveSceneryItem : MonoBehaviour
                 pos.y = -0.5f;
                 transform.position = pos;
 
-                disableAllOtherTerrains = true;
+                disableAllOtherTerrains = false;
             }
         }
         else if (this.tag == "Bridges")
