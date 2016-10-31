@@ -255,16 +255,26 @@ public class WorldController : MonoBehaviour
                 for (int i = 0; i < 5; i++)
                 {
                     //Building
-                    tempSpawnPosition.Set(Random.Range(300, 3000), Random.Range(30, 40), Random.Range(-500, 0));
+                    tempSpawnPosition.Set(Random.Range(350, 3000), Random.Range(30, 40), Random.Range(-500, 0));
                     lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+
+                    //bush
+                    tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(-900, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 //buildings right
                 for (int i = 0; i < 5; i++)
                 {
                     //Building
-                    tempSpawnPosition.Set(Random.Range(-300, -3000), Random.Range(30, 40), Random.Range(-500, 0));
+                    tempSpawnPosition.Set(Random.Range(-350, -3000), Random.Range(30, 40), Random.Range(-500, 0));
                     lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
+                    lastCreatedObject.transform.SetParent(scene.transform);
+
+                    //bush
+                    tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(-900, 0));
+                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 break;

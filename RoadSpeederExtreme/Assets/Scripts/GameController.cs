@@ -6,28 +6,74 @@ public class GameController : MonoBehaviour {
     public int playerSpeed;
     public float playerScore;
 
-    float speedIncreaseTimer;
+    public int timerSeconds = 0;
+    public int timerMinutes = 0;
+    
+    float unpauseCountdownValue = 3;
+    float unpauseCountdown;
+
 
 	// Use this for initialization
 	void Start () {
         playerSpeed = 130;
         playerScore = 0;
-        speedIncreaseTimer = 0;
 
+        StartCoroutine(IncreaseSpeed());
+        StartCoroutine(GameTimer());
     }
 	
 	// Update is called once per frame
 	void Update () {
-        //Increase speed every     v   by 1
-        if (speedIncreaseTimer >= 0.2)
+        //Pause or unpause depending on current timeScale
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale == 1)
+                Time.timeScale = 0;
+            else if (Time.timeScale == 0)
+                StartCoroutine(UnpauseGame());
+        }
+	}
+
+    IEnumerator IncreaseSpeed()
+    {
+        //Increase speed every x
+        while (true)
         {
             playerSpeed++;
             playerScore++;
-            speedIncreaseTimer = 0;
+            
+            yield return new WaitForSeconds(1f);
         }
-        else
+    }
+
+    IEnumerator GameTimer()
+    {
+        while (true)
         {
-            speedIncreaseTimer += Time.deltaTime;
+            yield return new WaitForSeconds(1f);
+
+            if (timerSeconds < 59)
+            {
+                timerSeconds++;
+            }
+            else
+            {
+                timerMinutes++;
+                timerSeconds = 0;
+            }
         }
-	}
+    }
+
+    IEnumerator UnpauseGame()
+    {
+        unpauseCountdown = unpauseCountdownValue;
+
+        while (unpauseCountdown > 0)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            unpauseCountdown--;
+        }
+
+        Time.timeScale = 1;
+    }
 }

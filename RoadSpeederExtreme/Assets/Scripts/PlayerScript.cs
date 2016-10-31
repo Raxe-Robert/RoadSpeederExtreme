@@ -20,38 +20,41 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		switch(Input.inputString)
-		{
-			case "a":
-				if (currentLane == lanes.middle) {
-					currentLane = lanes.left;
-					transform.position = new Vector3(35, 7.5f, 4970);
-				}
-					
-				else if (currentLane == lanes.right) {
-					currentLane = lanes.middle;
-					transform.position = new Vector3(0, 7.5f, 4970);
-				}
-					
-				break;
-			case "d":
-				if (currentLane == lanes.left) {
-					currentLane = lanes.middle;
-					this.transform.position = new Vector3(0, 7.5f, 4970);
-				}
-				else if (currentLane == lanes.middle) {
-					currentLane = lanes.right;
-					transform.position = new Vector3(-35, 7.5f, 4970);
-				}
-				break;
-            case "w":
-                GameControllerScript.playerSpeed += 100;
-                
-                break;
-            default:
-				break;
-		}
-			
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            if (currentLane == lanes.middle)
+            {
+                currentLane = lanes.left;
+                transform.position = new Vector3(35, 7.5f, 4970);
+            }
+
+            else if (currentLane == lanes.right)
+            {
+                currentLane = lanes.middle;
+                transform.position = new Vector3(0, 7.5f, 4970);
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.D))
+        {
+            if (currentLane == lanes.left)
+            {
+                currentLane = lanes.middle;
+                this.transform.position = new Vector3(0, 7.5f, 4970);
+            }
+            else if (currentLane == lanes.middle)
+            {
+                currentLane = lanes.right;
+                transform.position = new Vector3(-35, 7.5f, 4970);
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            GameControllerScript.playerSpeed += 100;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            GameControllerScript.playerSpeed -= 100;
+        }
 	}
 
 	void OnTriggerEnter(Collider other)

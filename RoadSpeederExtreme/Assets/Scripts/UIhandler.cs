@@ -9,6 +9,8 @@ public class UIhandler : MonoBehaviour {
     Text playerSpeed;
     [SerializeField]
     Text playerScore;
+    [SerializeField]
+    Text gameTimer;
 
     [SerializeField]
     Text scoreNotificationObject;
@@ -22,21 +24,20 @@ public class UIhandler : MonoBehaviour {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         scoreNotifications = new List<Text>();
 
+        StartCoroutine(UpdateUiText());
     }
 	
 	// Update is called once per frame
 	void Update () {
-        playerSpeed.text = "Speed: " + GameControllerScript.playerSpeed.ToString();
-        playerScore.text = "Score: " + GameControllerScript.playerScore.ToString();
-
-        for(int i = scoreNotifications.Count -1; i >= 0; i--)
+        //Move score notifications up and delete them at x
+        for (int i = scoreNotifications.Count -1; i >= 0; i--)
         {
             var text = scoreNotifications[i];
             var pos = text.rectTransform.anchoredPosition;
             pos.y += 2;
             text.rectTransform.anchoredPosition = pos;
 
-            if (text.rectTransform.anchoredPosition.y >= Screen.height / 4)
+            if (text.rectTransform.anchoredPosition.y >= -44)
             {
                 Destroy(text.gameObject);
                 scoreNotifications.RemoveAt(i);
@@ -46,7 +47,6 @@ public class UIhandler : MonoBehaviour {
 
     public void NewMessage(string text)
     {
-        
         var newNotificationText = Instantiate(scoreNotificationObject);
         newNotificationText.transform.SetParent(this.gameObject.transform);
 
@@ -59,5 +59,15 @@ public class UIhandler : MonoBehaviour {
         scoreNotifications.Add(newNotificationText);
     }
 
+    IEnumerator UpdateUiText()
+    {
+        while (true)
+        {
+            playerSpeed.text = "Speed: " + GameControllerScript.playerSpeed.ToString();
+            playerScore.text = "Score: " + GameControllerScript.playerScore.ToString();
+            gameTimer.text = (GameControllerScript.timerSeconds < 10 ? GameControllerScript.timerMinutes + ":0" + GameControllerScript.timerSeconds : GameControllerScript.timerMinutes + ":" + GameControllerScript.timerSeconds);
 
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
 }
