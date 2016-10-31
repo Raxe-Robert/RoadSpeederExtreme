@@ -37,7 +37,7 @@ public class WorldController : MonoBehaviour
 
     Vector3 tempSpawnPosition;
 
-    int[] graden = { 0, 90, 180, 270 };
+    int[] degrees = { 0, 90, 180, 270 };
     // Use this for initialization
     void Start()
     {
@@ -221,7 +221,7 @@ public class WorldController : MonoBehaviour
             case landscapePresets.forest:
                 //trees alongside the road
                 //trees and bushes left
-                for (int i = 0; i < 50; i++)
+                for (int i = 0; i < 45; i++)
                 {
                     //tree
                     tempSpawnPosition.Set(Random.Range(80, 3000), 44, Random.Range(-900, 0));
@@ -234,7 +234,7 @@ public class WorldController : MonoBehaviour
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 //trees and bushes right
-                for (int i = 0; i < 50; i++)
+                for (int i = 0; i < 45; i++)
                 {
                     //tree
                     tempSpawnPosition.Set(Random.Range(-80, -3000), 44, Random.Range(-900, 0));
@@ -256,7 +256,7 @@ public class WorldController : MonoBehaviour
                 {
                     //Building
                     tempSpawnPosition.Set(Random.Range(350, 3000), Random.Range(30, 40), Random.Range(-500, 0));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
                     //bush
@@ -269,7 +269,7 @@ public class WorldController : MonoBehaviour
                 {
                     //Building
                     tempSpawnPosition.Set(Random.Range(-350, -3000), Random.Range(30, 40), Random.Range(-500, 0));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
 
                     //bush
@@ -294,11 +294,11 @@ public class WorldController : MonoBehaviour
                 for (int i = 0; i < 1; i++)
                 {
                     tempSpawnPosition.Set(Random.Range(1000, 3000), 0, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                     
                     tempSpawnPosition.Set(Random.Range(-1000, -3000), 0, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, graden[Random.Range(0, 3)], 0)) as GameObject;
+                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
                 break;
@@ -327,6 +327,5 @@ public class WorldController : MonoBehaviour
             default:
                 break;
         }
-        
     }
 }

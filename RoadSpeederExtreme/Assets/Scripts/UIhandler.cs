@@ -11,6 +11,8 @@ public class UIhandler : MonoBehaviour {
     Text playerScore;
     [SerializeField]
     Text gameTimer;
+    [SerializeField]
+    Text countdownTimer;
 
     [SerializeField]
     Text scoreNotificationObject;
@@ -65,9 +67,16 @@ public class UIhandler : MonoBehaviour {
         {
             playerSpeed.text = "Speed: " + GameControllerScript.playerSpeed.ToString();
             playerScore.text = "Score: " + GameControllerScript.playerScore.ToString();
-            gameTimer.text = (GameControllerScript.timerSeconds < 10 ? GameControllerScript.timerMinutes + ":0" + GameControllerScript.timerSeconds : GameControllerScript.timerMinutes + ":" + GameControllerScript.timerSeconds);
 
-            yield return new WaitForSeconds(0.1f);
+            gameTimer.text = (GameControllerScript.timerSeconds < 10 ? 
+                GameControllerScript.timerMinutes + ":0" + GameControllerScript.timerSeconds : 
+                GameControllerScript.timerMinutes + ":" + GameControllerScript.timerSeconds);
+
+            countdownTimer.text = (GameControllerScript.unpauseCountdown <= 0 ?
+                "" :
+                "" + GameControllerScript.unpauseCountdown);
+
+            yield return new WaitForSecondsRealtime(0.1f);
         }
     }
 }

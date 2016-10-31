@@ -10,13 +10,20 @@ public class GameController : MonoBehaviour {
     public int timerMinutes = 0;
     
     float unpauseCountdownValue = 3;
-    float unpauseCountdown;
+    public float unpauseCountdown;
 
+    GameObject pauseMenu;
+    PlayerScript playerScript;
 
 	// Use this for initialization
 	void Start () {
         playerSpeed = 130;
         playerScore = 0;
+
+        playerScript = GameObject.Find("Playercar").GetComponent<PlayerScript>();
+
+        pauseMenu = GameObject.Find("PauseMenu");
+        pauseMenu.SetActive(false);
 
         StartCoroutine(IncreaseSpeed());
         StartCoroutine(GameTimer());
@@ -28,7 +35,11 @@ public class GameController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (Time.timeScale == 1)
+            {
+                playerScript.enabled = false;
+                pauseMenu.SetActive(true);
                 Time.timeScale = 0;
+            }
             else if (Time.timeScale == 0)
                 StartCoroutine(UnpauseGame());
         }
@@ -40,7 +51,6 @@ public class GameController : MonoBehaviour {
         while (true)
         {
             playerSpeed++;
-            playerScore++;
             
             yield return new WaitForSeconds(1f);
         }
@@ -68,12 +78,15 @@ public class GameController : MonoBehaviour {
     {
         unpauseCountdown = unpauseCountdownValue;
 
+        pauseMenu.SetActive(false);
+
         while (unpauseCountdown > 0)
         {
+            Debug.Log(unpauseCountdown);
             yield return new WaitForSecondsRealtime(1f);
             unpauseCountdown--;
         }
-
+        playerScript.enabled = true;
         Time.timeScale = 1;
     }
 }

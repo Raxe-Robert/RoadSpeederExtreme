@@ -20,7 +20,7 @@ public class PlayerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             if (currentLane == lanes.middle)
             {
@@ -34,7 +34,7 @@ public class PlayerScript : MonoBehaviour {
                 transform.position = new Vector3(0, 7.5f, 4970);
             }
         }
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (currentLane == lanes.left)
             {
@@ -47,11 +47,11 @@ public class PlayerScript : MonoBehaviour {
                 transform.position = new Vector3(-35, 7.5f, 4970);
             }
         }
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             GameControllerScript.playerSpeed += 100;
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             GameControllerScript.playerSpeed -= 100;
         }
