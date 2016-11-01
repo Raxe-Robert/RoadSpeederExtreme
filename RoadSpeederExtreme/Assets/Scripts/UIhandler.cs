@@ -15,6 +15,9 @@ public class UIhandler : MonoBehaviour {
     Text countdownTimer;
 
     [SerializeField]
+    Image speedPointer;
+
+    [SerializeField]
     Text scoreNotificationObject;
     List<Text> scoreNotifications;
 
@@ -26,11 +29,12 @@ public class UIhandler : MonoBehaviour {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         scoreNotifications = new List<Text>();
 
-        StartCoroutine(UpdateUiText());
+        StartCoroutine(UpdateUiElements());
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         //Move score notifications up and delete them at x
         for (int i = scoreNotifications.Count -1; i >= 0; i--)
         {
@@ -45,6 +49,7 @@ public class UIhandler : MonoBehaviour {
                 scoreNotifications.RemoveAt(i);
             }
         }
+
     }
 
     public void NewMessage(string text)
@@ -61,12 +66,12 @@ public class UIhandler : MonoBehaviour {
         scoreNotifications.Add(newNotificationText);
     }
 
-    IEnumerator UpdateUiText()
+    IEnumerator UpdateUiElements()
     {
         while (true)
         {
-            playerSpeed.text = "Speed: " + GameControllerScript.playerSpeed.ToString();
-            playerScore.text = "Score: " + GameControllerScript.playerScore.ToString();
+            playerSpeed.text = "" + GameControllerScript.playerSpeed;
+            playerScore.text = "" + GameControllerScript.playerScore;
 
             gameTimer.text = (GameControllerScript.timerSeconds < 10 ? 
                 GameControllerScript.timerMinutes + ":0" + GameControllerScript.timerSeconds : 
@@ -75,6 +80,14 @@ public class UIhandler : MonoBehaviour {
             countdownTimer.text = (GameControllerScript.unpauseCountdown <= 0 ?
                 "" :
                 "" + GameControllerScript.unpauseCountdown);
+
+            float speedPercentage = 0;
+            if (GameControllerScript.playerSpeed >= 0 || GameControllerScript.playerSpeed <= GameControllerScript.maxPlayerSpeed)
+            {
+                speedPercentage = (float)GameControllerScript.playerSpeed / (float)GameControllerScript.maxPlayerSpeed * 100f;
+
+                speedPointer.rectTransform.rotation = Quaternion.Euler(0, 0, 90 - speedPercentage * 1.8f);
+            }
 
             yield return new WaitForSecondsRealtime(0.1f);
         }

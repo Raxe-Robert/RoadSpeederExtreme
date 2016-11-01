@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 
+    public int maxPlayerSpeed;
     public int playerSpeed;
     public float playerScore;
 
@@ -17,6 +18,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        maxPlayerSpeed = 600;
         playerSpeed = 130;
         playerScore = 0;
 
@@ -40,7 +42,7 @@ public class GameController : MonoBehaviour {
                 pauseMenu.SetActive(true);
                 Time.timeScale = 0;
             }
-            else if (Time.timeScale == 0)
+            else if (Time.timeScale == 0 && unpauseCountdown <=0)
                 StartCoroutine(UnpauseGame());
         }
 	}
@@ -82,7 +84,6 @@ public class GameController : MonoBehaviour {
 
         while (unpauseCountdown > 0)
         {
-            Debug.Log(unpauseCountdown);
             yield return new WaitForSecondsRealtime(1f);
             unpauseCountdown--;
         }

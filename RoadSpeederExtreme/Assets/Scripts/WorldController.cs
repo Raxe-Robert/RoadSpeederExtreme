@@ -51,7 +51,7 @@ public class WorldController : MonoBehaviour
         ChangeLandscape();
 
         //clouds
-        for (int i = 0; i < 250; i++)
+        for (int i = 0; i < 200; i++)
         {
             tempSpawnPosition.Set(Random.Range(-4000, 4000), Random.Range(680, 700), Random.Range(-3000, 2800));
             lastCreatedObject = Instantiate(spawnableNature[1], tempSpawnPosition, Quaternion.identity) as GameObject;
@@ -290,17 +290,15 @@ public class WorldController : MonoBehaviour
                     lastCreatedObject = Instantiate(spawnableNature[4], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
                     lastCreatedObject.transform.SetParent(scene.transform);
                 }
-                //DesertFormation
-                for (int i = 0; i < 1; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(1000, 3000), 0, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+
+                tempSpawnPosition.Set(Random.Range(1000, 3000), 0, Random.Range(-200, 0));
+                lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
+                lastCreatedObject.transform.SetParent(scene.transform);
                     
-                    tempSpawnPosition.Set(Random.Range(-1000, -3000), 0, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
-                }
+                tempSpawnPosition.Set(Random.Range(-1000, -3000), 0, Random.Range(-200, 0));
+                lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
+                lastCreatedObject.transform.SetParent(scene.transform);
+                
                 break;
             case landscapePresets.ocean:
                 //Bridge

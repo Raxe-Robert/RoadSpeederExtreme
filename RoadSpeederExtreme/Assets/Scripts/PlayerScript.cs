@@ -5,7 +5,7 @@ public class PlayerScript : MonoBehaviour {
 
 	[SerializeField]
 	GameController GameControllerScript;
-    UIhandler UIhandlerScript;
+	UIhandler UIhandlerScript;
 
 	public enum lanes { left, middle, right};
 	public lanes currentLane;
@@ -14,47 +14,47 @@ public class PlayerScript : MonoBehaviour {
 	void Start () {
 		currentLane = lanes.middle;
 		GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
-        UIhandlerScript = GameObject.Find("UI").GetComponent<UIhandler>();
+		UIhandlerScript = GameObject.Find("UI").GetComponent<UIhandler>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-        if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (currentLane == lanes.middle)
-            {
-                currentLane = lanes.left;
-                transform.position = new Vector3(35, 7.5f, 4970);
-            }
+		if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+		{
+			if (currentLane == lanes.middle)
+			{
+				currentLane = lanes.left;
+				transform.position = new Vector3(35, 7.5f, 4970);
+			}
 
-            else if (currentLane == lanes.right)
-            {
-                currentLane = lanes.middle;
-                transform.position = new Vector3(0, 7.5f, 4970);
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (currentLane == lanes.left)
-            {
-                currentLane = lanes.middle;
-                this.transform.position = new Vector3(0, 7.5f, 4970);
-            }
-            else if (currentLane == lanes.middle)
-            {
-                currentLane = lanes.right;
-                transform.position = new Vector3(-35, 7.5f, 4970);
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            GameControllerScript.playerSpeed += 100;
-        }
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            GameControllerScript.playerSpeed -= 100;
-        }
+			else if (currentLane == lanes.right)
+			{
+				currentLane = lanes.middle;
+				transform.position = new Vector3(0, 7.5f, 4970);
+			}
+		}
+		if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+		{
+			if (currentLane == lanes.left)
+			{
+				currentLane = lanes.middle;
+				this.transform.position = new Vector3(0, 7.5f, 4970);
+			}
+			else if (currentLane == lanes.middle)
+			{
+				currentLane = lanes.right;
+				transform.position = new Vector3(-35, 7.5f, 4970);
+			}
+		}
+		if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+		{
+			GameControllerScript.playerSpeed += 100;
+		}
+		if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+		{
+			GameControllerScript.playerSpeed -= 100;
+		}
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -71,14 +71,14 @@ public class PlayerScript : MonoBehaviour {
 			else if (NearMiss(otherScript))
 			{
 				GameControllerScript.playerScore += 10;
-                UIhandlerScript.NewMessage(10.ToString());
+				UIhandlerScript.NewMessage(10.ToString());
 			}
 			//If there is one lane between playercar and traffic car
 			else
 			{
 				GameControllerScript.playerScore += 5;
-                UIhandlerScript.NewMessage(5.ToString());
-            }
+				UIhandlerScript.NewMessage(5.ToString());
+			}
 				
 		}
 	}
