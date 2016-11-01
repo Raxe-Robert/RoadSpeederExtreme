@@ -14,7 +14,7 @@ public class WorldController : MonoBehaviour
     GameObject[] spawnableBuildings;
 
     GameObject scene;
-    GameObject Traffic;
+    GameObject TrafficContainer;
     GameObject lastCreatedObject;
 
     GameController GameControllerScript;
@@ -42,7 +42,7 @@ public class WorldController : MonoBehaviour
     void Start()
     {
         scene = GameObject.Find("scene");
-        Traffic = GameObject.Find("Traffic");
+        TrafficContainer = GameObject.Find("TrafficContainer");
 
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         playerSpeed = GameControllerScript.playerSpeed;
@@ -213,7 +213,7 @@ public class WorldController : MonoBehaviour
 
             int randomCarModel = Random.Range(0, spawnableTraffic.Length);
             lastCreatedObject = Instantiate(spawnableTraffic[randomCarModel], tempSpawnPosition, Quaternion.Euler(0, -90, 0)) as GameObject;
-            lastCreatedObject.transform.SetParent(Traffic.transform);
+            lastCreatedObject.transform.SetParent(TrafficContainer.transform);
         }
 
         switch (currentLandscape)

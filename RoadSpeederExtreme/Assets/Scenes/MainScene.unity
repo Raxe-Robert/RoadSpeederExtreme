@@ -764,6 +764,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1369748679}
+  - {fileID: 1663072034}
   m_Father: {fileID: 1742801182}
   m_RootOrder: 0
   m_AnchorMin: {x: 1, y: 1}
@@ -927,7 +928,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 481819657}
   m_Layer: 0
-  m_Name: Traffic
+  m_Name: TrafficContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2384,6 +2385,39 @@ Transform:
   m_PrefabParentObject: {fileID: 4000011827169386, guid: f7d71a88730315642a8cdf87d02903e1,
     type: 2}
   m_PrefabInternal: {fileID: 6780592}
+--- !u!1 &1663072033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1663072034}
+  m_Layer: 5
+  m_Name: ScoreMessagesContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1663072034
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1663072033}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 380494385}
+  m_RootOrder: 1
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.08999634, y: -22.629997}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1723098773 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000011876288644, guid: 0bb4f944de5a80f4b9874660a185f9ce,
@@ -2503,8 +2537,9 @@ MonoBehaviour:
   gameTimer: {fileID: 25978795}
   countdownTimer: {fileID: 1863407785}
   speedPointer: {fileID: 497219410}
-  scoreNotificationObject: {fileID: 114000010897834324, guid: 308ac6cee58072147942d0654abbc5d3,
+  scoreMessageObject: {fileID: 1000012166433848, guid: 308ac6cee58072147942d0654abbc5d3,
     type: 2}
+  scoreMessagesList: []
   GameControllerScript: {fileID: 0}
 --- !u!1 &1743383254 stripped
 GameObject:

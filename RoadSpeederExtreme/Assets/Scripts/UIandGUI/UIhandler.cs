@@ -18,52 +18,48 @@ public class UIhandler : MonoBehaviour {
     Image speedPointer;
 
     [SerializeField]
-    Text scoreNotificationObject;
-    List<Text> scoreNotifications;
+    GameObject scoreMessageObject;
+    [SerializeField]
+    List<Text> scoreMessagesList;
 
     [SerializeField]
     GameController GameControllerScript;
 
+    GameObject ScoreMessagesContainer;
+
 	// Use this for initialization
 	void Start () {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
-        scoreNotifications = new List<Text>();
+        ScoreMessagesContainer = GameObject.Find("ScoreMessagesContainer");
+        scoreMessagesList = new List<Text>();
 
-        StartCoroutine(UpdateUiElements());
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        //Move score notifications up and delete them at x
-        for (int i = scoreNotifications.Count -1; i >= 0; i--)
+        for (int i = 0; i < 10; i++)
         {
-            var text = scoreNotifications[i];
-            var pos = text.rectTransform.anchoredPosition;
-            pos.y += 2;
-            text.rectTransform.anchoredPosition = pos;
+            var NewMessageObject = Instantiate(scoreMessageObject, scoreMessageObject.transform.position, Quaternion.identity)as GameObject;
+            var NewMessageObjectText = NewMessageObject.GetComponent<Text>();
 
-            if (text.rectTransform.anchoredPosition.y >= -44)
-            {
-                Destroy(text.gameObject);
-                scoreNotifications.RemoveAt(i);
-            }
+            NewMessageObject.transform.SetParent(ScoreMessagesContainer.transform, false);
+
+            NewMessageObjectText.text = "";
+            scoreMessagesList.Add(NewMessageObjectText);
+
+            scoreMessageObject.SetActive(false);
         }
 
+        StartCoroutine(UpdateUiElements());
     }
 
     public void NewMessage(string text)
     {
-        var newNotificationText = Instantiate(scoreNotificationObject);
-        newNotificationText.transform.SetParent(this.gameObject.transform);
-
-        var pos = newNotificationText.rectTransform.anchoredPosition;
-        pos.y = -Screen.height / 4;
-        pos.x = 0;
-        newNotificationText.rectTransform.anchoredPosition = pos;
-
-        newNotificationText.text = "+" + text;
-        scoreNotifications.Add(newNotificationText);
+        foreach (var messageObject in scoreMessagesList)
+        {
+            if (messageObject.isActiveAndEnabled == false)
+            {
+                messageObject.text = text;
+                messageObject.gameObject.SetActive(true);
+                break;
+            }
+        }
     }
 
     IEnumerator UpdateUiElements()
