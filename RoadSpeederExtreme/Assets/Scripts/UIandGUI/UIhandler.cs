@@ -66,7 +66,7 @@ public class UIhandler : MonoBehaviour {
     {
         while (true)
         {
-            playerSpeed.text = "" + GameControllerScript.playerSpeed;
+            playerSpeed.text = "" + GameControllerScript.playerSpeed / 2;
             playerScore.text = "" + GameControllerScript.playerScore;
 
             gameTimer.text = (GameControllerScript.timerSeconds < 10 ? 

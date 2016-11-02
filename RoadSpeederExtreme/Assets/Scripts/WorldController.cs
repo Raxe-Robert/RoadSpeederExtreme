@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour
 {
-
     [SerializeField]
     GameObject[] spawnableNature;
 
@@ -37,6 +36,7 @@ public class WorldController : MonoBehaviour
     List<GameObject> DesertFormationsList;
     List<GameObject> BridgesList;
     List<GameObject> WavesList;
+    
 
     GameController GameControllerScript;
 
@@ -49,11 +49,9 @@ public class WorldController : MonoBehaviour
     [SerializeField]
     public GameObject[] LandscapeTerrain;
 
-    [SerializeField]
-    int[] spawnzoneTrees;
-
     float playerSpeed;
-    float spawnrate = 0; //seconds
+    float spawnrateTerrain = 2; //seconds
+    float spawnrateRoad = 2;
     float landscapeDuration; //seconds
 
     Vector3 tempSpawnPosition;
@@ -109,9 +107,12 @@ public class WorldController : MonoBehaviour
         PopulatePool(spawnableNature[6], pool_Waves, WavesList, 20, false);
 
         playerSpeed = GameControllerScript.playerSpeed;
-
         landscapeDuration = Random.Range(20, 30);
+
         ChangeLandscape();
+
+        StartCoroutine(RoadPopulator());
+        StartCoroutine(TerrainPopulator());
     }
 
     // Update is called once per frame
@@ -123,21 +124,201 @@ public class WorldController : MonoBehaviour
         if (landscapeDuration <= 0)
         {
             ChangeLandscape();
-            spawnrate = 2;
+            spawnrateTerrain = 2;
         }
         else
             landscapeDuration -= Time.deltaTime;
-
-        //Spawning
-        if (spawnrate <= 0)
+        
+    }
+    
+    IEnumerator RoadPopulator()
+    {
+        while (true)
         {
-            CreateTerrain();
-            spawnrate = 2;
+            #region Spawning stuff
+            //cars
+            //1 or 2
+            int tempAmountCars = Random.Range(1, 3);
+            int laneIsUsed = -1;
+            for (int i = 0; i < tempAmountCars; i++)
+            {
+                int laneSpawn = Random.Range(1, 4);
+                while (laneSpawn == laneIsUsed)
+                    laneSpawn = Random.Range(1, 4);
+
+                laneIsUsed = laneSpawn;
+
+                switch (laneSpawn)
+                {
+                    case 1:
+                        tempSpawnPosition.Set(35, 7, 2000);
+                        break;
+                    case 2:
+                        tempSpawnPosition.Set(0, 7, 2000);
+                        break;
+                    case 3:
+                        tempSpawnPosition.Set(-35, 7, 2000);
+                        break;
+                    default:
+                        break;
+                }
+                SpawnObject(TrafficList, tempSpawnPosition);
+            }
+            #endregion
+
+            float waitTime = spawnrateRoad / (playerSpeed / 100);
+            if (waitTime <= 0)
+                waitTime = 0.01f;
+
+            yield return new WaitForSeconds(waitTime);
         }
-        else
-            spawnrate -= Time.deltaTime * (playerSpeed / 100);
     }
 
+    IEnumerator TerrainPopulator()
+    {
+        while (true)
+        {
+            #region Spawning stuff
+            switch (currentLandscape)
+            {
+                case landscapePresets.forest:
+                    //trees alongside the road
+                    //trees and bushes left
+                    for (int i = 0; i < 30; i++)
+                    {
+                        tempSpawnPosition.Set(Random.Range(80, 2500), 44, Random.Range(-900, 0));
+                        SpawnObject(TreesList, tempSpawnPosition);
+
+                        tempSpawnPosition.Set(Random.Range(-80, -2500), 44, Random.Range(-900, 0));
+                        SpawnObject(TreesList, tempSpawnPosition);
+                    }
+                    //trees and bushes right
+                    for (int i = 0; i < 30; i++)
+                    {
+                        tempSpawnPosition.Set(Random.Range(80, 2500), 7.8f, Random.Range(-900, 0));
+                        SpawnObject(BushesList, tempSpawnPosition);
+
+                        tempSpawnPosition.Set(Random.Range(-80, -2500), 7.8f, Random.Range(-900, 0));
+                        SpawnObject(BushesList, tempSpawnPosition);
+                    }
+
+                    break;
+                case landscapePresets.city:
+                    //buildings
+                    //buildings left
+                    //int[] graden = { 0, 90, 180, 270 };
+                    tempSpawnPosition.Set(Random.Range(350, 2500), Random.Range(30, 40), Random.Range(-500, 0));
+                    SpawnObject(BuildingsList, tempSpawnPosition);
+
+                    tempSpawnPosition.Set(Random.Range(80, 2500), 7.8f, Random.Range(-900, 0));
+                    SpawnObject(BushesList, tempSpawnPosition);
+
+                    //buildings right
+                    tempSpawnPosition.Set(Random.Range(-350, -2500), Random.Range(30, 40), Random.Range(-500, 0));
+                    SpawnObject(BuildingsList, tempSpawnPosition);
+
+                    tempSpawnPosition.Set(Random.Range(-80, -2500), 7.8f, Random.Range(-900, 0));
+                    SpawnObject(BushesList, tempSpawnPosition);
+
+                    break;
+                case landscapePresets.desert:
+                    //Cactuses
+                    for (int i = 0; i < 3; i++)
+                    {
+                        tempSpawnPosition.Set(Random.Range(80, 2500), 20, Random.Range(-1000, 0));
+                        SpawnObject(CactusesList, tempSpawnPosition);
+
+                        tempSpawnPosition.Set(Random.Range(-80, -2500), 20, Random.Range(-1000, 0));
+                        SpawnObject(CactusesList, tempSpawnPosition);
+                    }
+
+                    //DesertFormations left or right
+                    tempSpawnPosition.Set(Random.Range(1000, 2500), 0, Random.Range(-200, 0));
+                    SpawnObject(DesertFormationsList, tempSpawnPosition);
+
+                    tempSpawnPosition.Set(Random.Range(-1000, -2500), 0, Random.Range(-200, 0));
+                    SpawnObject(DesertFormationsList, tempSpawnPosition);
+
+                    break;
+                case landscapePresets.ocean:
+                    //Bridge
+                    tempSpawnPosition.Set(0, 0, 0);
+                    SpawnObject(BridgesList, tempSpawnPosition);
+
+                    tempSpawnPosition.Set(0, 0, 405);
+                    SpawnObject(BridgesList, tempSpawnPosition);
+
+                    //Waves
+                    for (int i = 0; i < 1; i++)
+                    {
+                        tempSpawnPosition.Set(Random.Range(250, 1500), 7.8f, Random.Range(-200, 0));
+                        SpawnObject(WavesList, tempSpawnPosition);
+
+                        tempSpawnPosition.Set(Random.Range(-250, -1500), 7.8f, Random.Range(-200, 0));
+                        SpawnObject(WavesList, tempSpawnPosition);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            #endregion
+
+            float waitTime = spawnrateTerrain / (playerSpeed / 100);
+            if (waitTime <= 0)
+                waitTime = 0.01f;
+
+            yield return new WaitForSeconds(waitTime);
+        }
+    }
+
+    //Set objective active at spawnPosition
+    void SpawnObject(List<GameObject> objectList, Vector3 spawnPosition)
+    {
+        if (objectList.Count > 0)
+        {
+            var newObject = objectList[objectList.Count - 1];
+            newObject.gameObject.transform.position = spawnPosition;
+            newObject.gameObject.SetActive(true);
+            objectList.RemoveAt(objectList.Count - 1);
+        }
+        else
+        {
+            Debug.Log("too few objects");
+        }
+    }
+
+    //Populate with given object
+    void PopulatePool(GameObject gameObject, GameObject objectPool, List<GameObject> objectPoolList, int objectAmount, bool activeOnCreate)
+    {
+        for (int i = 0; i < objectAmount; i++)
+        {
+            lastCreatedObject = Instantiate(gameObject, gameObject.transform.position, Quaternion.identity) as GameObject;
+            lastCreatedObject.transform.SetParent(objectPool.transform);
+
+            objectPoolList.Add(lastCreatedObject);
+
+            if (!activeOnCreate)
+                lastCreatedObject.SetActive(false);
+        }
+    }
+
+    //Populate with random object from given object list
+    void PopulatePool(GameObject[] gameObjectList, GameObject objectPool, List<GameObject> objectPoolList, int objectAmount, bool activeOnCreate)
+    {
+        for (int i = 0; i < objectAmount; i++)
+        {
+            var gameObject = gameObjectList[Random.Range(0, gameObjectList.Length)];
+            lastCreatedObject = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
+            lastCreatedObject.transform.SetParent(objectPool.transform);
+
+            objectPoolList.Add(lastCreatedObject);
+
+            if (!activeOnCreate)
+                lastCreatedObject.SetActive(false);
+        }
+    }
+    
+    //Change landscape preset randomly
     void ChangeLandscape()
     {
         //Random landscape preset
@@ -226,180 +407,13 @@ public class WorldController : MonoBehaviour
                 var pos = LandscapeTerrain[i].transform.position;
                 pos.y = -0.25f;
 
-                if(LandscapeTerrain[i].activeInHierarchy == false)
+                if (LandscapeTerrain[i].activeInHierarchy == false)
                 {
                     pos.z = -5000;
                 }
 
                 LandscapeTerrain[i].transform.position = pos;
             }
-        }
-    }
-
-    void SpawnObjects(List<GameObject> objectList, Vector3 spawnPosition)
-    {
-        if (objectList.Count > 0)
-        {
-            var newObject = objectList[0];
-            newObject.gameObject.transform.position = spawnPosition;
-            newObject.gameObject.SetActive(true);
-            objectList.RemoveAt(0);
-        }
-        else
-        {
-            Debug.Log("too few objects");
-        }
-    }
-
-    void CreateTerrain()
-    {
-        //cars
-        //1 or 2
-        int tempAmountCars = Random.Range(1, 3);
-        int laneIsUsed = -1;
-        for (int i = 0; i < tempAmountCars; i++)
-        {
-            int laneSpawn = Random.Range(1, 4);
-            while (laneSpawn == laneIsUsed)
-                laneSpawn = Random.Range(1, 4);
-
-            laneIsUsed = laneSpawn;
-
-            switch (laneSpawn)
-            {
-                case 1:
-                    tempSpawnPosition.Set(35, 7, 2000);
-                    break;
-                case 2:
-                    tempSpawnPosition.Set(0, 7, 2000);
-                    break;
-                case 3:
-                    tempSpawnPosition.Set(-35, 7, 2000);
-                    break;
-                default:
-                    break;
-            }
-
-            SpawnObjects(TrafficList, tempSpawnPosition);
-        }
-
-        //Spawn according to landscape
-        switch (currentLandscape)
-        {
-            case landscapePresets.forest:
-                //trees alongside the road
-                //trees and bushes left
-                for (int i = 0; i < 40; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(80, 3000), 44, Random.Range(-900, 0));
-                    SpawnObjects(TreesList, tempSpawnPosition);
-                    
-                    tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(-900, 0));
-                    SpawnObjects(BushesList, tempSpawnPosition);
-                }
-                //trees and bushes right
-                for (int i = 0; i < 40; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(-80, -3000), 44, Random.Range(-900, 0));
-                    SpawnObjects(TreesList, tempSpawnPosition);
-
-                    tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(-900, 0));
-                    SpawnObjects(BushesList, tempSpawnPosition);
-                }
-                
-                break;
-            case landscapePresets.city:
-                //buildings
-                //buildings left
-                //int[] graden = { 0, 90, 180, 270 };
-                for (int i = 0; i < 3; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(350, 3000), Random.Range(30, 40), Random.Range(-500, 0));
-                    SpawnObjects(BuildingsList, tempSpawnPosition);
-
-                    tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(-900, 0));
-                    SpawnObjects(BushesList, tempSpawnPosition);
-                }
-                //buildings right
-                for (int i = 0; i < 3; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(-350, -3000), Random.Range(30, 40), Random.Range(-500, 0));
-                    SpawnObjects(BuildingsList, tempSpawnPosition);
-
-                    tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(-900, 0));
-                    SpawnObjects(BushesList, tempSpawnPosition);
-                }
-                break;
-            case landscapePresets.desert:
-                //Cactuses
-                for (int i = 0; i < 3; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(80, 3000), 20, Random.Range(-1000, 0));
-                    SpawnObjects(CactusesList, tempSpawnPosition);
-
-                    tempSpawnPosition.Set(Random.Range(-80, -3000), 20, Random.Range(-1000, 0));
-                    SpawnObjects(CactusesList, tempSpawnPosition);
-                }
-
-                //DesertFormations
-                tempSpawnPosition.Set(Random.Range(1000, 3000), 0, Random.Range(-200, 0));
-                SpawnObjects(DesertFormationsList, tempSpawnPosition);
-
-                tempSpawnPosition.Set(Random.Range(-1000, -3000), 0, Random.Range(-200, 0));
-                SpawnObjects(DesertFormationsList, tempSpawnPosition);
-                
-                break;
-            case landscapePresets.ocean:
-                //Bridge
-                tempSpawnPosition.Set(0, 0, 0);
-                SpawnObjects(BridgesList, tempSpawnPosition);
-
-                tempSpawnPosition.Set(0, 0, 405);
-                SpawnObjects(BridgesList, tempSpawnPosition);
-
-                //Waves
-                for (int i = 0; i < 1; i++)
-                {
-                    tempSpawnPosition.Set(Random.Range(250, 1500), 7.8f, Random.Range(-200, 0));
-                    SpawnObjects(WavesList, tempSpawnPosition);
-
-                    tempSpawnPosition.Set(Random.Range(-250, -1500), 7.8f, Random.Range(-200, 0));
-                    SpawnObjects(WavesList, tempSpawnPosition);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    //Populate with given object
-    void PopulatePool(GameObject gameObject, GameObject objectPool, List<GameObject> objectPoolList, int objectAmount, bool activeOnCreate)
-    {
-        for (int i = 0; i < objectAmount; i++)
-        {
-            lastCreatedObject = Instantiate(gameObject, gameObject.transform.position, Quaternion.identity) as GameObject;
-            lastCreatedObject.transform.SetParent(objectPool.transform);
-
-            objectPoolList.Add(lastCreatedObject);
-
-            if (!activeOnCreate)
-                lastCreatedObject.SetActive(false);
-        }
-    }
-
-    //Populate with random object from given object list
-    void PopulatePool(GameObject[] gameObjectList, GameObject objectPool, List<GameObject> objectPoolList, int objectAmount, bool activeOnCreate)
-    {
-        for (int i = 0; i < objectAmount; i++)
-        {
-            var gameObject = gameObjectList[Random.Range(0, gameObjectList.Length)];
-            lastCreatedObject = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
-            lastCreatedObject.transform.SetParent(objectPool.transform);
-
-            objectPoolList.Add(lastCreatedObject);
-
-            if (!activeOnCreate)
-                lastCreatedObject.SetActive(false);
         }
     }
 }

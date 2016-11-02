@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MoveRoadItem : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MoveRoadItem : MonoBehaviour
 
     GameController GameControllerScript;
     WorldController WorldControllerScript;
+    List<GameObject> myPool;
 
     public enum lanes { left, middle, right };
     public lanes currentLane;
@@ -20,6 +22,8 @@ public class MoveRoadItem : MonoBehaviour
         WorldControllerScript = GameObject.Find("GameScripts").GetComponent<WorldController>();
 
         playerSpeed = GameControllerScript.playerSpeed;
+
+        myPool = WorldControllerScript.poolListsContainer[0];
 
         if (transform.position.x == 0) {
             currentLane = lanes.middle;
@@ -46,7 +50,7 @@ public class MoveRoadItem : MonoBehaviour
             if (transform.position.z >= 5100)
             {
                 gameObject.SetActive(false);
-                WorldControllerScript.poolListsContainer[0].Add(gameObject);
+                myPool.Add(gameObject);
             }
         }
     }

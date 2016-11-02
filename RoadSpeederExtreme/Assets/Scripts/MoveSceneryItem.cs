@@ -107,9 +107,11 @@ public class MoveSceneryItem : MonoBehaviour
             transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
 
             if (transform.position.z >= 5600)
+            {
                 gameObject.SetActive(false);
                 if (myPool != null)
                     myPool.Add(gameObject);
+            }
         }
         else
         {
