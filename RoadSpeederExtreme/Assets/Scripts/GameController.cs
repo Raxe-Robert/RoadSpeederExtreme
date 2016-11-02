@@ -14,10 +14,13 @@ public class GameController : MonoBehaviour {
     public float unpauseCountdown;
 
     GameObject pauseMenu;
+    GameObject gameTimer;
     PlayerScript playerScript;
+    GameObject resumeButton;
+    
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         maxPlayerSpeed = 600;
         playerSpeed = 130;
         playerScore = 0;
@@ -26,6 +29,11 @@ public class GameController : MonoBehaviour {
 
         pauseMenu = GameObject.Find("PauseMenu");
         pauseMenu.SetActive(false);
+
+        gameTimer = GameObject.Find("GameTimer");
+        gameTimer.SetActive(true);
+
+        resumeButton = GameObject.Find("UnpauseButton");
 
         StartCoroutine(IncreaseSpeed());
         StartCoroutine(GameTimer());
@@ -44,9 +52,10 @@ public class GameController : MonoBehaviour {
             }
             else if (Time.timeScale == 0 && unpauseCountdown <=0)
                 StartCoroutine(UnpauseGame());
-        }
+        } 
+         
 	}
-
+    
     IEnumerator IncreaseSpeed()
     {
         //Increase speed every x
@@ -84,10 +93,12 @@ public class GameController : MonoBehaviour {
 
         while (unpauseCountdown > 0)
         {
+            gameTimer.SetActive(false);
             yield return new WaitForSecondsRealtime(1f);
             unpauseCountdown--;
         }
         playerScript.enabled = true;
+        gameTimer.SetActive(true);
         Time.timeScale = 1;
     }
 }

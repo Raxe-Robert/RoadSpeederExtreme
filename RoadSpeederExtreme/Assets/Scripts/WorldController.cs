@@ -55,8 +55,8 @@ public class WorldController : MonoBehaviour
     float landscapeDuration; //seconds
 
     Vector3 tempSpawnPosition;
+    Quaternion tempSpawnRotation;
 
-    //int[] degrees = { 0, 90, 180, 270 };
     // Use this for initialization
     void Start()
     {
@@ -140,6 +140,7 @@ public class WorldController : MonoBehaviour
             //1 or 2
             int tempAmountCars = Random.Range(1, 3);
             int laneIsUsed = -1;
+            tempSpawnRotation = new Quaternion(0, -90, 0, 90);
             for (int i = 0; i < tempAmountCars; i++)
             {
                 int laneSpawn = Random.Range(1, 4);
@@ -162,7 +163,7 @@ public class WorldController : MonoBehaviour
                     default:
                         break;
                 }
-                SpawnObject(TrafficList, tempSpawnPosition);
+                SpawnObject(TrafficList, tempSpawnPosition, tempSpawnRotation);
             }
             #endregion
 
@@ -178,6 +179,8 @@ public class WorldController : MonoBehaviour
     {
         while (true)
         {
+            int[] buildinglength = { 46, 191, 238, 402 };
+            int[] degrees = { 0, 90, 180, 270 };
             #region Spawning stuff
             switch (currentLandscape)
             {
@@ -187,75 +190,86 @@ public class WorldController : MonoBehaviour
                     for (int i = 0; i < 30; i++)
                     {
                         tempSpawnPosition.Set(Random.Range(80, 2500), 44, Random.Range(-900, 0));
-                        SpawnObject(TreesList, tempSpawnPosition);
+                        tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+                        SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
 
                         tempSpawnPosition.Set(Random.Range(-80, -2500), 44, Random.Range(-900, 0));
-                        SpawnObject(TreesList, tempSpawnPosition);
+                        tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+                        SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
                     }
                     //trees and bushes right
                     for (int i = 0; i < 30; i++)
                     {
                         tempSpawnPosition.Set(Random.Range(80, 2500), 7.8f, Random.Range(-900, 0));
-                        SpawnObject(BushesList, tempSpawnPosition);
+                        tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+                        SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
                         tempSpawnPosition.Set(Random.Range(-80, -2500), 7.8f, Random.Range(-900, 0));
-                        SpawnObject(BushesList, tempSpawnPosition);
+                        tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+                        SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
                     }
 
                     break;
                 case landscapePresets.city:
                     //buildings
                     //buildings left
-                    //int[] graden = { 0, 90, 180, 270 };
-                    tempSpawnPosition.Set(Random.Range(350, 2500), Random.Range(30, 40), Random.Range(-500, 0));
-                    SpawnObject(BuildingsList, tempSpawnPosition);
+                    tempSpawnPosition.Set(Random.Range(350, 2500), buildinglength[Random.Range(0, 3)], Random.Range(-500, 0));
+                    tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
+                    SpawnObject(BuildingsList, tempSpawnPosition, tempSpawnRotation);
 
                     tempSpawnPosition.Set(Random.Range(80, 2500), 7.8f, Random.Range(-900, 0));
-                    SpawnObject(BushesList, tempSpawnPosition);
+                    tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
+                    SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
                     //buildings right
-                    tempSpawnPosition.Set(Random.Range(-350, -2500), Random.Range(30, 40), Random.Range(-500, 0));
-                    SpawnObject(BuildingsList, tempSpawnPosition);
+                    tempSpawnPosition.Set(Random.Range(-350, -2500), buildinglength[Random.Range(0, 3)], Random.Range(-500, 0));
+                    tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
+                    SpawnObject(BuildingsList, tempSpawnPosition, tempSpawnRotation);
 
                     tempSpawnPosition.Set(Random.Range(-80, -2500), 7.8f, Random.Range(-900, 0));
-                    SpawnObject(BushesList, tempSpawnPosition);
+                    tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
+                    SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
                     break;
                 case landscapePresets.desert:
                     //Cactuses
                     for (int i = 0; i < 3; i++)
                     {
-                        tempSpawnPosition.Set(Random.Range(80, 2500), 20, Random.Range(-1000, 0));
-                        SpawnObject(CactusesList, tempSpawnPosition);
+                        tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+                        tempSpawnPosition.Set(Random.Range(80, 2500), 20, Random.Range(-1000, 0));                        
+                        SpawnObject(CactusesList, tempSpawnPosition, tempSpawnRotation);
 
                         tempSpawnPosition.Set(Random.Range(-80, -2500), 20, Random.Range(-1000, 0));
-                        SpawnObject(CactusesList, tempSpawnPosition);
+                        SpawnObject(CactusesList, tempSpawnPosition, tempSpawnRotation);
                     }
 
                     //DesertFormations left or right
+                    tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
                     tempSpawnPosition.Set(Random.Range(1000, 2500), 0, Random.Range(-200, 0));
-                    SpawnObject(DesertFormationsList, tempSpawnPosition);
+                    SpawnObject(DesertFormationsList, tempSpawnPosition, tempSpawnRotation);
 
                     tempSpawnPosition.Set(Random.Range(-1000, -2500), 0, Random.Range(-200, 0));
-                    SpawnObject(DesertFormationsList, tempSpawnPosition);
+                    SpawnObject(DesertFormationsList, tempSpawnPosition, tempSpawnRotation);
 
                     break;
                 case landscapePresets.ocean:
                     //Bridge
                     tempSpawnPosition.Set(0, 0, 0);
-                    SpawnObject(BridgesList, tempSpawnPosition);
+                    tempSpawnRotation.Set(0, 0, 0, tempSpawnRotation.w);
+                    SpawnObject(BridgesList, tempSpawnPosition, tempSpawnRotation);
 
                     tempSpawnPosition.Set(0, 0, 405);
-                    SpawnObject(BridgesList, tempSpawnPosition);
+                    SpawnObject(BridgesList, tempSpawnPosition, tempSpawnRotation);
 
                     //Waves
                     for (int i = 0; i < 1; i++)
                     {
                         tempSpawnPosition.Set(Random.Range(250, 1500), 7.8f, Random.Range(-200, 0));
-                        SpawnObject(WavesList, tempSpawnPosition);
+                        tempSpawnRotation.Set(0, 90, 0, tempSpawnRotation.w);
+                        SpawnObject(WavesList, tempSpawnPosition, tempSpawnRotation);
 
                         tempSpawnPosition.Set(Random.Range(-250, -1500), 7.8f, Random.Range(-200, 0));
-                        SpawnObject(WavesList, tempSpawnPosition);
+                        SpawnObject(WavesList, tempSpawnPosition, tempSpawnRotation);
                     }
                     break;
                 default:
@@ -272,12 +286,13 @@ public class WorldController : MonoBehaviour
     }
 
     //Set objective active at spawnPosition
-    void SpawnObject(List<GameObject> objectList, Vector3 spawnPosition)
+    void SpawnObject(List<GameObject> objectList, Vector3 spawnPosition, Quaternion spawnRotation)
     {
         if (objectList.Count > 0)
         {
             var newObject = objectList[objectList.Count - 1];
             newObject.gameObject.transform.position = spawnPosition;
+            newObject.gameObject.transform.rotation = spawnRotation;
             newObject.gameObject.SetActive(true);
             objectList.RemoveAt(objectList.Count - 1);
         }
