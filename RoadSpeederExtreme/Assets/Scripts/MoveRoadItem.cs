@@ -8,6 +8,7 @@ public class MoveRoadItem : MonoBehaviour
     float playerSpeed;
 
     GameController GameControllerScript;
+    WorldController WorldControllerScript;
 
     public enum lanes { left, middle, right };
     public lanes currentLane;
@@ -16,6 +17,8 @@ public class MoveRoadItem : MonoBehaviour
     void Start()
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
+        WorldControllerScript = GameObject.Find("GameScripts").GetComponent<WorldController>();
+
         playerSpeed = GameControllerScript.playerSpeed;
 
         if (transform.position.x == 0) {
@@ -39,10 +42,12 @@ public class MoveRoadItem : MonoBehaviour
         if (this.tag == "Traffic")
         {
             transform.Translate(0, 0, playerSpeed * 2 * Time.deltaTime - 120 * Time.deltaTime, Space.World);
-        }
-            
-        if (transform.position.z >= 5100)
-            Destroy(this.gameObject);
 
+            if (transform.position.z >= 5100)
+            {
+                gameObject.SetActive(false);
+                WorldControllerScript.poolListsContainer[0].Add(gameObject);
+            }
+        }
     }
 }

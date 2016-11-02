@@ -19,18 +19,18 @@ public class UIhandler : MonoBehaviour {
 
     [SerializeField]
     GameObject scoreMessageObject;
+    GameObject pool_ScoreMessages;
     [SerializeField]
     List<Text> scoreMessagesList;
 
     [SerializeField]
     GameController GameControllerScript;
 
-    GameObject ScoreMessagesContainer;
 
 	// Use this for initialization
 	void Start () {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
-        ScoreMessagesContainer = GameObject.Find("ScoreMessagesContainer");
+        pool_ScoreMessages = GameObject.Find("pool_ScoreMessages");
         scoreMessagesList = new List<Text>();
 
         for (int i = 0; i < 10; i++)
@@ -38,12 +38,12 @@ public class UIhandler : MonoBehaviour {
             var NewMessageObject = Instantiate(scoreMessageObject, scoreMessageObject.transform.position, Quaternion.identity)as GameObject;
             var NewMessageObjectText = NewMessageObject.GetComponent<Text>();
 
-            NewMessageObject.transform.SetParent(ScoreMessagesContainer.transform, false);
+            NewMessageObject.transform.SetParent(pool_ScoreMessages.transform, false);
 
             NewMessageObjectText.text = "";
             scoreMessagesList.Add(NewMessageObjectText);
 
-            scoreMessageObject.SetActive(false);
+            NewMessageObject.SetActive(false);
         }
 
         StartCoroutine(UpdateUiElements());

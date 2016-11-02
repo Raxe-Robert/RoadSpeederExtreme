@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour
 {
@@ -14,8 +15,28 @@ public class WorldController : MonoBehaviour
     GameObject[] spawnableBuildings;
 
     GameObject scene;
-    GameObject TrafficContainer;
     GameObject lastCreatedObject;
+
+    GameObject pool_Traffic;
+    GameObject pool_Clouds;
+    GameObject pool_Trees;
+    GameObject pool_Bushes;
+    GameObject pool_Buildings;
+    GameObject pool_Cactuses;
+    GameObject pool_DesertFormations;
+    GameObject pool_Bridges;
+    GameObject pool_Waves;
+    
+    public List<List<GameObject>> poolListsContainer;
+    List<GameObject> TrafficList;
+    List<GameObject> CloudsList;
+    List<GameObject> TreesList;
+    List<GameObject> BushesList;
+    List<GameObject> BuildingsList;
+    List<GameObject> CactusesList;
+    List<GameObject> DesertFormationsList;
+    List<GameObject> BridgesList;
+    List<GameObject> WavesList;
 
     GameController GameControllerScript;
 
@@ -37,26 +58,60 @@ public class WorldController : MonoBehaviour
 
     Vector3 tempSpawnPosition;
 
-    int[] degrees = { 0, 90, 180, 270 };
+    //int[] degrees = { 0, 90, 180, 270 };
     // Use this for initialization
     void Start()
     {
         scene = GameObject.Find("scene");
-        TrafficContainer = GameObject.Find("TrafficContainer");
 
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
+
+        pool_Traffic = GameObject.Find("pool_Traffic");
+        pool_Clouds = GameObject.Find("pool_Clouds");
+        pool_Trees = GameObject.Find("pool_Trees"); ;
+        pool_Bushes = GameObject.Find("pool_Bushes"); ;
+        pool_Buildings = GameObject.Find("pool_Buildings");
+        pool_Cactuses = GameObject.Find("pool_Cactuses");
+        pool_DesertFormations = GameObject.Find("pool_DesertFormations");
+        pool_Bridges = GameObject.Find("pool_Bridges");
+        pool_Waves = GameObject.Find("pool_Waves");
+
+        TrafficList = new List<GameObject>();
+        CloudsList = new List<GameObject>();
+        TreesList = new List<GameObject>();
+        BushesList = new List<GameObject>();
+        BuildingsList = new List<GameObject>();
+        CactusesList = new List<GameObject>();
+        DesertFormationsList = new List<GameObject>();
+        BridgesList = new List<GameObject>();
+        WavesList = new List<GameObject>();
+
+        poolListsContainer = new List<List<GameObject>>();
+        poolListsContainer.Add(TrafficList);
+        poolListsContainer.Add(CloudsList);
+        poolListsContainer.Add(TreesList);
+        poolListsContainer.Add(BushesList);
+        poolListsContainer.Add(BuildingsList);
+        poolListsContainer.Add(CactusesList);
+        poolListsContainer.Add(DesertFormationsList);
+        poolListsContainer.Add(BridgesList);
+        poolListsContainer.Add(WavesList);
+
+        //Populate pools
+        PopulatePool(spawnableTraffic, pool_Traffic, TrafficList, 20, false);
+        PopulatePool(spawnableNature[1], pool_Clouds, CloudsList, 150, true);
+        PopulatePool(spawnableNature[0], pool_Trees, TreesList, 600, false);
+        PopulatePool(spawnableNature[2], pool_Bushes, BushesList, 600, false);
+        PopulatePool(spawnableBuildings[0], pool_Buildings, BuildingsList, 50, false);
+        PopulatePool(spawnableNature[4], pool_Cactuses, CactusesList, 150, false);
+        PopulatePool(spawnableNature[5], pool_DesertFormations, DesertFormationsList, 20, false);
+        PopulatePool(spawnableBuildings[1], pool_Bridges, BridgesList, 150, false);
+        PopulatePool(spawnableNature[6], pool_Waves, WavesList, 20, false);
+
         playerSpeed = GameControllerScript.playerSpeed;
 
         landscapeDuration = Random.Range(20, 30);
         ChangeLandscape();
-
-        //clouds
-        for (int i = 0; i < 200; i++)
-        {
-            tempSpawnPosition.Set(Random.Range(-4000, 4000), Random.Range(680, 700), Random.Range(-3000, 2800));
-            lastCreatedObject = Instantiate(spawnableNature[1], tempSpawnPosition, Quaternion.identity) as GameObject;
-            lastCreatedObject.transform.SetParent(scene.transform);
-        }
     }
 
     // Update is called once per frame
@@ -76,7 +131,7 @@ public class WorldController : MonoBehaviour
         //Spawning
         if (spawnrate <= 0)
         {
-            SpawnObjects();
+            CreateTerrain();
             spawnrate = 2;
         }
         else
@@ -181,7 +236,22 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    void SpawnObjects()
+    void SpawnObjects(List<GameObject> objectList, Vector3 spawnPosition)
+    {
+        if (objectList.Count > 0)
+        {
+            var newObject = objectList[0];
+            newObject.gameObject.transform.position = spawnPosition;
+            newObject.gameObject.SetActive(true);
+            objectList.RemoveAt(0);
+        }
+        else
+        {
+            Debug.Log("too few objects");
+        }
+    }
+
+    void CreateTerrain()
     {
         //cars
         //1 or 2
@@ -199,7 +269,6 @@ public class WorldController : MonoBehaviour
             {
                 case 1:
                     tempSpawnPosition.Set(35, 7, 2000);
-
                     break;
                 case 2:
                     tempSpawnPosition.Set(0, 7, 2000);
@@ -211,40 +280,31 @@ public class WorldController : MonoBehaviour
                     break;
             }
 
-            int randomCarModel = Random.Range(0, spawnableTraffic.Length);
-            lastCreatedObject = Instantiate(spawnableTraffic[randomCarModel], tempSpawnPosition, Quaternion.Euler(0, -90, 0)) as GameObject;
-            lastCreatedObject.transform.SetParent(TrafficContainer.transform);
+            SpawnObjects(TrafficList, tempSpawnPosition);
         }
 
+        //Spawn according to landscape
         switch (currentLandscape)
         {
             case landscapePresets.forest:
                 //trees alongside the road
                 //trees and bushes left
-                for (int i = 0; i < 45; i++)
+                for (int i = 0; i < 40; i++)
                 {
-                    //tree
                     tempSpawnPosition.Set(Random.Range(80, 3000), 44, Random.Range(-900, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
-
-                    //bush
+                    SpawnObjects(TreesList, tempSpawnPosition);
+                    
                     tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(-900, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(BushesList, tempSpawnPosition);
                 }
                 //trees and bushes right
-                for (int i = 0; i < 45; i++)
+                for (int i = 0; i < 40; i++)
                 {
-                    //tree
                     tempSpawnPosition.Set(Random.Range(-80, -3000), 44, Random.Range(-900, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[0], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(TreesList, tempSpawnPosition);
 
-                    //bush
                     tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(-900, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(BushesList, tempSpawnPosition);
                 }
                 
                 break;
@@ -252,78 +312,94 @@ public class WorldController : MonoBehaviour
                 //buildings
                 //buildings left
                 //int[] graden = { 0, 90, 180, 270 };
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    //Building
                     tempSpawnPosition.Set(Random.Range(350, 3000), Random.Range(30, 40), Random.Range(-500, 0));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(BuildingsList, tempSpawnPosition);
 
-                    //bush
                     tempSpawnPosition.Set(Random.Range(80, 3000), 7.8f, Random.Range(-900, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(BushesList, tempSpawnPosition);
                 }
                 //buildings right
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    //Building
                     tempSpawnPosition.Set(Random.Range(-350, -3000), Random.Range(30, 40), Random.Range(-500, 0));
-                    lastCreatedObject = Instantiate(spawnableBuildings[0], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(BuildingsList, tempSpawnPosition);
 
-                    //bush
                     tempSpawnPosition.Set(Random.Range(-80, -3000), 7.8f, Random.Range(-900, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[2], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(BushesList, tempSpawnPosition);
                 }
                 break;
             case landscapePresets.desert:
-                //Cactus
-                for (int i = 0; i < 10; i++)
+                //Cactuses
+                for (int i = 0; i < 3; i++)
                 {
                     tempSpawnPosition.Set(Random.Range(80, 3000), 20, Random.Range(-1000, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[4], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
-                    
+                    SpawnObjects(CactusesList, tempSpawnPosition);
+
                     tempSpawnPosition.Set(Random.Range(-80, -3000), 20, Random.Range(-1000, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[4], tempSpawnPosition, Quaternion.Euler(0, Random.Range(0, 360), 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(CactusesList, tempSpawnPosition);
                 }
 
+                //DesertFormations
                 tempSpawnPosition.Set(Random.Range(1000, 3000), 0, Random.Range(-200, 0));
-                lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
-                lastCreatedObject.transform.SetParent(scene.transform);
-                    
+                SpawnObjects(DesertFormationsList, tempSpawnPosition);
+
                 tempSpawnPosition.Set(Random.Range(-1000, -3000), 0, Random.Range(-200, 0));
-                lastCreatedObject = Instantiate(spawnableNature[5], tempSpawnPosition, Quaternion.Euler(0, degrees[Random.Range(0, 4)], 0)) as GameObject;
-                lastCreatedObject.transform.SetParent(scene.transform);
+                SpawnObjects(DesertFormationsList, tempSpawnPosition);
                 
                 break;
             case landscapePresets.ocean:
                 //Bridge
                 tempSpawnPosition.Set(0, 0, 0);
-                lastCreatedObject = Instantiate(spawnableBuildings[1], tempSpawnPosition, Quaternion.Euler(0, 0, 0)) as GameObject;
-                lastCreatedObject.transform.SetParent(scene.transform);
+                SpawnObjects(BridgesList, tempSpawnPosition);
 
                 tempSpawnPosition.Set(0, 0, 405);
-                lastCreatedObject = Instantiate(spawnableBuildings[1], tempSpawnPosition, Quaternion.Euler(0, 0, 0)) as GameObject;
-                lastCreatedObject.transform.SetParent(scene.transform);
-                
+                SpawnObjects(BridgesList, tempSpawnPosition);
+
                 //Waves
                 for (int i = 0; i < 1; i++)
                 {
                     tempSpawnPosition.Set(Random.Range(250, 1500), 7.8f, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[6], tempSpawnPosition, Quaternion.Euler(0, 90, 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(WavesList, tempSpawnPosition);
 
                     tempSpawnPosition.Set(Random.Range(-250, -1500), 7.8f, Random.Range(-200, 0));
-                    lastCreatedObject = Instantiate(spawnableNature[6], tempSpawnPosition, Quaternion.Euler(0, 90, 0)) as GameObject;
-                    lastCreatedObject.transform.SetParent(scene.transform);
+                    SpawnObjects(WavesList, tempSpawnPosition);
                 }
                 break;
             default:
                 break;
+        }
+    }
+
+    //Populate with given object
+    void PopulatePool(GameObject gameObject, GameObject objectPool, List<GameObject> objectPoolList, int objectAmount, bool activeOnCreate)
+    {
+        for (int i = 0; i < objectAmount; i++)
+        {
+            lastCreatedObject = Instantiate(gameObject, gameObject.transform.position, Quaternion.identity) as GameObject;
+            lastCreatedObject.transform.SetParent(objectPool.transform);
+
+            objectPoolList.Add(lastCreatedObject);
+
+            if (!activeOnCreate)
+                lastCreatedObject.SetActive(false);
+        }
+    }
+
+    //Populate with random object from given object list
+    void PopulatePool(GameObject[] gameObjectList, GameObject objectPool, List<GameObject> objectPoolList, int objectAmount, bool activeOnCreate)
+    {
+        for (int i = 0; i < objectAmount; i++)
+        {
+            var gameObject = gameObjectList[Random.Range(0, gameObjectList.Length)];
+            lastCreatedObject = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
+            lastCreatedObject.transform.SetParent(objectPool.transform);
+
+            objectPoolList.Add(lastCreatedObject);
+
+            if (!activeOnCreate)
+                lastCreatedObject.SetActive(false);
         }
     }
 }

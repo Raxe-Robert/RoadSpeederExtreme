@@ -11,6 +11,10 @@ TagManager:
   - Buildings
   - Bridges
   - Terrain
+  - Cactuses
+  - DesertFormations
+  - Waves
+  - Stepperollers
   layers:
   - Default
   - TransparentFX

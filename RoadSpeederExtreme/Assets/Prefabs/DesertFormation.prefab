@@ -24,7 +24,7 @@ GameObject:
   - 114: {fileID: 114000013536674252}
   m_Layer: 0
   m_Name: DesertFormation
-  m_TagString: Untagged
+  m_TagString: DesertFormations
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

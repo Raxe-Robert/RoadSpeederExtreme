@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MoveSceneryItem : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MoveSceneryItem : MonoBehaviour
 
     GameController GameControllerScript;
     WorldController WorldControllerScript;
+    List<GameObject> myPool;
 
     void OnEnable()
     {
@@ -23,6 +25,38 @@ public class MoveSceneryItem : MonoBehaviour
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
         WorldControllerScript = GameObject.Find("GameScripts").GetComponent<WorldController>();
         playerSpeed = GameControllerScript.playerSpeed;
+        
+        switch (this.tag)
+        {
+            case "Clouds":
+                myPool = WorldControllerScript.poolListsContainer[1];
+                transform.position = new Vector3(Random.Range(-4000, 4000), Random.Range(680, 700), Random.Range(-3000, 2800));
+                break;
+            case "Trees":
+                myPool = WorldControllerScript.poolListsContainer[2];
+                break;
+            case "Bushes":
+                myPool = WorldControllerScript.poolListsContainer[3];
+                break;
+            case "Buildings":
+                myPool = WorldControllerScript.poolListsContainer[4];
+                break;
+            case "Cactuses":
+                myPool = WorldControllerScript.poolListsContainer[5];
+                break;
+            case "DesertFormations":
+                myPool = WorldControllerScript.poolListsContainer[6];
+                break;
+            case "Bridges":
+                myPool = WorldControllerScript.poolListsContainer[7];
+                break;
+            case "Waves":
+                myPool = WorldControllerScript.poolListsContainer[8];
+                break;
+            default:
+                myPool = null;
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -73,14 +107,20 @@ public class MoveSceneryItem : MonoBehaviour
             transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
 
             if (transform.position.z >= 5600)
-                Destroy(this.gameObject);
+                gameObject.SetActive(false);
+                if (myPool != null)
+                    myPool.Add(gameObject);
         }
         else
         {
             transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
 
             if (transform.position.z >= 5100)
-                Destroy(this.gameObject);
+            {
+                gameObject.SetActive(false);
+                if (myPool != null)
+                    myPool.Add(gameObject);
+            }
         }
     }
 }
