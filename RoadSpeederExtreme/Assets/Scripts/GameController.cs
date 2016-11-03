@@ -15,8 +15,9 @@ public class GameController : MonoBehaviour {
 
     GameObject pauseMenu;
     GameObject gameTimer;
-    PlayerScript playerScript;
     GameObject resumeButton;
+
+    PlayerScript playerScript;
     
 
     // Use this for initialization
@@ -31,7 +32,6 @@ public class GameController : MonoBehaviour {
         pauseMenu.SetActive(false);
 
         gameTimer = GameObject.Find("GameTimer");
-        gameTimer.SetActive(true);
 
         resumeButton = GameObject.Find("UnpauseButton");
 
@@ -90,15 +90,19 @@ public class GameController : MonoBehaviour {
         unpauseCountdown = unpauseCountdownValue;
 
         pauseMenu.SetActive(false);
+        gameTimer.SetActive(false);
 
         while (unpauseCountdown > 0)
         {
-            gameTimer.SetActive(false);
             yield return new WaitForSecondsRealtime(1f);
             unpauseCountdown--;
         }
         playerScript.enabled = true;
-        gameTimer.SetActive(true);
         Time.timeScale = 1;
+
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        if (unpauseCountdown <= 0)
+            gameTimer.SetActive(true);
     }
 }

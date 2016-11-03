@@ -185,7 +185,6 @@ public class WorldController : MonoBehaviour
             switch (currentLandscape)
             {
                 case landscapePresets.forest:
-                    //trees alongside the road
                     //trees and bushes left
                     for (int i = 0; i < 30; i++)
                     {
@@ -211,7 +210,6 @@ public class WorldController : MonoBehaviour
 
                     break;
                 case landscapePresets.city:
-                    //buildings
                     //buildings left
                     tempSpawnPosition.Set(Random.Range(350, 2500), buildinglength[Random.Range(0, 3)], Random.Range(-500, 0));
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
