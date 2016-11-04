@@ -15,6 +15,22 @@ public class MoveRoadItem : MonoBehaviour
     public enum lanes { left, middle, right };
     public lanes currentLane;
 
+    void OnEnable()
+    {
+        if (transform.position.x == 0)
+        {
+            currentLane = lanes.middle;
+        }
+        if (transform.position.x < 0)
+        {
+            currentLane = lanes.right;
+        }
+        if (transform.position.x > 0)
+        {
+            currentLane = lanes.left;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -24,18 +40,6 @@ public class MoveRoadItem : MonoBehaviour
         playerSpeed = GameControllerScript.playerSpeed;
 
         myPool = WorldControllerScript.poolListsContainer[0];
-
-        if (transform.position.x == 0) {
-            currentLane = lanes.middle;
-        }
-        if (transform.position.x < 0) //right
-        {
-            currentLane = lanes.right;
-        }
-        if (transform.position.x > 0)
-        {
-            currentLane = lanes.left;
-        }
     }
 
     // Update is called once per frame

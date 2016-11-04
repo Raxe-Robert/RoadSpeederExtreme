@@ -65,7 +65,7 @@ public class PlayerScript : MonoBehaviour {
 		{
 			//If the lanes are the same there is a collision
 			if (currentLane.ToString() == otherScript.currentLane.ToString())
-			{
+            {
                 GameControllerScript.GameOver();                              
 			}
 			//Check for a near miss
