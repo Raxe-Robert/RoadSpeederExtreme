@@ -62,8 +62,7 @@ public class GameController : MonoBehaviour {
         while (true)
         {
             if (playerSpeed < maxPlayerSpeed)
-            {
-                Debug.Log(playerSpeed);
+            {               
                 playerSpeed += 2;
             }
 

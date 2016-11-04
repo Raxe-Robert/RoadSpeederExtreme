@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour {
 
 	[SerializeField]
 	GameController GameControllerScript;
 	UIhandler UIhandlerScript;
+
+    [SerializeField]
+    Text actualScore;
 
 	public enum lanes { left, middle, right};
 	public lanes currentLane;
@@ -65,7 +69,8 @@ public class PlayerScript : MonoBehaviour {
 			//If the lanes are the same there is a collision
 			if (currentLane.ToString() == otherScript.currentLane.ToString())
 			{
-				Debug.Log("Game over, score: " + GameControllerScript.playerScore);
+                actualScore.text = "" + GameControllerScript.playerScore;         
+				Debug.Log("Game over, score: " + GameControllerScript.playerScore);                                
 			}
 			//Check for a near miss
 			else if (NearMiss(otherScript))

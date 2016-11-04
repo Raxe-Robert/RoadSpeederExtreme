@@ -185,7 +185,7 @@ public class WorldController : MonoBehaviour
             switch (currentLandscape)
             {
                 case landscapePresets.forest:
-                    //Bushes
+                    //Trees
                     for (int i = 0; i < 30; i++)
                     {
                         tempSpawnPosition.Set(Random.Range(8, 250), 4, Random.Range(-90, 0));
@@ -196,7 +196,7 @@ public class WorldController : MonoBehaviour
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                         SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
                     }
-                    //trees
+                    //Bushes
                     for (int i = 0; i < 30; i++)
                     {
                         tempSpawnPosition.Set(Random.Range(8, 250), 1f, Random.Range(-90, 0));
@@ -215,8 +215,8 @@ public class WorldController : MonoBehaviour
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
                     SpawnObject(BuildingsList, tempSpawnPosition, tempSpawnRotation);
 
-                    tempSpawnPosition.Set(Random.Range(8, 250), 7.8f, Random.Range(-90, 0));
-                    tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
+                    tempSpawnPosition.Set(Random.Range(8, 250), 0.2f, Random.Range(-90, 0));
+                    tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                     SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
                     //buildings right
@@ -224,8 +224,8 @@ public class WorldController : MonoBehaviour
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
                     SpawnObject(BuildingsList, tempSpawnPosition, tempSpawnRotation);
 
-                    tempSpawnPosition.Set(Random.Range(-8, -250), 7.8f, Random.Range(-90, 0));
-                    tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
+                    tempSpawnPosition.Set(Random.Range(-8, -250), 0.2f, Random.Range(-90, 0));
+                    tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                     SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
                     break;

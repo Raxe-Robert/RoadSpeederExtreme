@@ -10,6 +10,8 @@ public class UIhandler : MonoBehaviour {
     [SerializeField]
     Text playerScore;
     [SerializeField]
+    Text actualScore;    
+    [SerializeField]
     Text gameTimer;
     [SerializeField]
     Text countdownTimer;
