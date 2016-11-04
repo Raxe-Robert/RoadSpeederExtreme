@@ -11,15 +11,20 @@ public class PlayerScript : MonoBehaviour {
     [SerializeField]
     Text actualScore;
 
-	public enum lanes { left, middle, right};
+    GameObject ScoreBoard;
+    public enum lanes { left, middle, right};
 	public lanes currentLane;
 
 	// Use this for initialization
 	void Start () {
-		currentLane = lanes.middle;
+
+        ScoreBoard = GameObject.Find("HighScoreBoard");
+        ScoreBoard.SetActive(false);
+
+        currentLane = lanes.middle;
 		GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
 		UIhandlerScript = GameObject.Find("UI").GetComponent<UIhandler>();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -68,8 +73,11 @@ public class PlayerScript : MonoBehaviour {
 		{
 			//If the lanes are the same there is a collision
 			if (currentLane.ToString() == otherScript.currentLane.ToString())
-			{
-                actualScore.text = "" + GameControllerScript.playerScore;         
+			{                
+                actualScore.text = "" + GameControllerScript.playerScore;
+                ScoreBoard.SetActive(true);
+                Time.timeScale = 0;
+                this.enabled = false;     
 				Debug.Log("Game over, score: " + GameControllerScript.playerScore);                                
 			}
 			//Check for a near miss
@@ -87,6 +95,13 @@ public class PlayerScript : MonoBehaviour {
 				
 		}
 	}
+
+    //Everything to restart the game
+    public void RestartGame()
+    {        
+        //Just a test chill out a bit plz
+        actualScore.text += 1000;
+    }
 
 	bool NearMiss(MoveRoadItem otherScript)
 	{

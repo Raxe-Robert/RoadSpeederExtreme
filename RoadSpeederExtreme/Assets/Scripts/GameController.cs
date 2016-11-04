@@ -89,7 +89,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    IEnumerator UnpauseGame()
+    public IEnumerator UnpauseGame()
     {
         unpauseCountdown = unpauseCountdownValue;
 
@@ -109,4 +109,10 @@ public class GameController : MonoBehaviour {
         if (unpauseCountdown <= 0)
             gameTimer.SetActive(true);
     }
+
+    public void UnpauseButton()
+    {
+        UnpauseGame();        
+    }
+    
 }
