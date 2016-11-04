@@ -617,7 +617,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -639,7 +639,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1752886731}
+      - m_Target: {fileID: 1077144393}
         m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
@@ -2773,7 +2773,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameControllerScript: {fileID: 0}
-  actualScore: {fileID: 512867474}
   currentLane: 0
 --- !u!65 &1752886732
 BoxCollider:
@@ -3232,7 +3231,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1077144393}
-        m_MethodName: GamePauseButton
+        m_MethodName: ButtonFunction_Unpause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -70,6 +70,7 @@ public class UIhandler : MonoBehaviour {
         {
             playerSpeed.text = "" + GameControllerScript.playerSpeed / 2;
             playerScore.text = "" + GameControllerScript.playerScore;
+            actualScore.text = "" + playerScore.text;
 
             gameTimer.text = (GameControllerScript.timerSeconds < 10 ? 
                 GameControllerScript.timerMinutes + ":0" + GameControllerScript.timerSeconds : 

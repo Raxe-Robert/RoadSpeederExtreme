@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -15,6 +16,8 @@ public class GameController : MonoBehaviour {
 
     GameObject pauseMenu;
     GameObject gameTimer;
+    GameObject scoreBoard;
+
     GameObject resumeButton;
 
     PlayerScript playerScript;
@@ -34,6 +37,9 @@ public class GameController : MonoBehaviour {
         gameTimer = GameObject.Find("GameTimer");
 
         resumeButton = GameObject.Find("UnpauseButton");
+        
+        scoreBoard = GameObject.Find("HighScoreBoard");
+        scoreBoard.SetActive(false);
 
         StartCoroutine(IncreaseSpeed());
         StartCoroutine(GameTimer());
@@ -56,13 +62,26 @@ public class GameController : MonoBehaviour {
          
 	}
     
+    public void GameOver()
+    {
+        scoreBoard.SetActive(true);
+        Time.timeScale = 0;
+        playerScript.enabled = false;
+    }
+    
+    public void RestartGame()
+    {
+        //Placeholder
+        SceneManager.LoadScene("MainScene");
+    }
+
     IEnumerator IncreaseSpeed()
     {
         //Increase speed every x
         while (true)
         {
             if (playerSpeed < maxPlayerSpeed)
-            {               
+            {
                 playerSpeed += 2;
             }
 
@@ -89,7 +108,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public IEnumerator UnpauseGame()
+    IEnumerator UnpauseGame()
     {
         unpauseCountdown = unpauseCountdownValue;
 
@@ -110,9 +129,9 @@ public class GameController : MonoBehaviour {
             gameTimer.SetActive(true);
     }
 
-    public void UnpauseButton()
+    public void ButtonFunction_Unpause()
     {
-        UnpauseGame();        
+        StartCoroutine(UnpauseGame());
     }
-    
+
 }
