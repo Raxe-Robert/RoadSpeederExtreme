@@ -73,6 +73,7 @@ public class GameController : MonoBehaviour {
     {
         //Placeholder
         SceneManager.LoadScene("MainScene");
+        Time.timeScale = 1;
     }
 
     IEnumerator IncreaseSpeed()

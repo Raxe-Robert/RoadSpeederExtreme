@@ -297,7 +297,8 @@ public class WorldController : MonoBehaviour
         }
         else
         {
-            Debug.Log("too few objects");
+            
+            Debug.Log("too few objects:" + objectList.Count);
         }
     }
 
