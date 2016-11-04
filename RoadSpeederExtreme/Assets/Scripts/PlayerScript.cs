@@ -25,13 +25,13 @@ public class PlayerScript : MonoBehaviour {
 			if (currentLane == lanes.middle)
 			{
 				currentLane = lanes.left;
-				transform.position = new Vector3(35, 7.5f, 4970);
+				transform.position = new Vector3(3.5f, 0.75f, 497);
 			}
 
 			else if (currentLane == lanes.right)
 			{
 				currentLane = lanes.middle;
-				transform.position = new Vector3(0, 7.5f, 4970);
+				transform.position = new Vector3(0, 0.75f, 497);
 			}
 		}
 		if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
@@ -39,12 +39,12 @@ public class PlayerScript : MonoBehaviour {
 			if (currentLane == lanes.left)
 			{
 				currentLane = lanes.middle;
-				this.transform.position = new Vector3(0, 7.5f, 4970);
+				this.transform.position = new Vector3(0, 0.75f, 497);
 			}
 			else if (currentLane == lanes.middle)
 			{
 				currentLane = lanes.right;
-				transform.position = new Vector3(-35, 7.5f, 4970);
+				transform.position = new Vector3(-3.5f, 0.75f, 497);
 			}
 		}
 		if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))

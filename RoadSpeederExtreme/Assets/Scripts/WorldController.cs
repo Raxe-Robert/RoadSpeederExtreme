@@ -50,8 +50,8 @@ public class WorldController : MonoBehaviour
     public GameObject[] LandscapeTerrain;
 
     float playerSpeed;
-    float spawnrateTerrain = 2; //seconds
-    float spawnrateRoad = 2;
+    float spawnrateTerrain = 1f; //seconds
+    float spawnrateRoad = 2f;
     float landscapeDuration; //seconds
 
     Vector3 tempSpawnPosition;
@@ -98,8 +98,8 @@ public class WorldController : MonoBehaviour
         //Populate pools
         PopulatePool(spawnableTraffic, pool_Traffic, TrafficList, 20, false);
         PopulatePool(spawnableNature[1], pool_Clouds, CloudsList, 150, true);
-        PopulatePool(spawnableNature[0], pool_Trees, TreesList, 600, false);
-        PopulatePool(spawnableNature[2], pool_Bushes, BushesList, 600, false);
+        PopulatePool(spawnableNature[0], pool_Trees, TreesList, 400, false);
+        PopulatePool(spawnableNature[2], pool_Bushes, BushesList, 400, false);
         PopulatePool(spawnableBuildings[0], pool_Buildings, BuildingsList, 50, false);
         PopulatePool(spawnableNature[4], pool_Cactuses, CactusesList, 150, false);
         PopulatePool(spawnableNature[5], pool_DesertFormations, DesertFormationsList, 20, false);
@@ -124,7 +124,7 @@ public class WorldController : MonoBehaviour
         if (landscapeDuration <= 0)
         {
             ChangeLandscape();
-            spawnrateTerrain = 2;
+            spawnrateTerrain = 1f;
         }
         else
             landscapeDuration -= Time.deltaTime;
@@ -152,13 +152,13 @@ public class WorldController : MonoBehaviour
                 switch (laneSpawn)
                 {
                     case 1:
-                        tempSpawnPosition.Set(35, 7, 2000);
+                        tempSpawnPosition.Set(3.5f, 0.7f, 200);
                         break;
                     case 2:
-                        tempSpawnPosition.Set(0, 7, 2000);
+                        tempSpawnPosition.Set(0, 0.7f, 200);
                         break;
                     case 3:
-                        tempSpawnPosition.Set(-35, 7, 2000);
+                        tempSpawnPosition.Set(-3.5f, 0.7f, 200);
                         break;
                     default:
                         break;
@@ -167,9 +167,9 @@ public class WorldController : MonoBehaviour
             }
             #endregion
 
-            float waitTime = spawnrateRoad / (playerSpeed / 100);
+            float waitTime = spawnrateRoad / (playerSpeed / 70);
             if (waitTime <= 0)
-                waitTime = 0.01f;
+                waitTime = 0.1f;
 
             yield return new WaitForSeconds(waitTime);
         }
@@ -179,31 +179,31 @@ public class WorldController : MonoBehaviour
     {
         while (true)
         {
-            int[] buildinglength = { 46, 191, 238, 402 };
+            int[] buildinglength = { 4, 19, 23, 40 };
             int[] degrees = { 0, 90, 180, 270 };
             #region Spawning stuff
             switch (currentLandscape)
             {
                 case landscapePresets.forest:
-                    //trees and bushes left
+                    //Bushes
                     for (int i = 0; i < 30; i++)
                     {
-                        tempSpawnPosition.Set(Random.Range(80, 2500), 44, Random.Range(-900, 0));
+                        tempSpawnPosition.Set(Random.Range(8, 250), 4, Random.Range(-90, 0));
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                         SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
 
-                        tempSpawnPosition.Set(Random.Range(-80, -2500), 44, Random.Range(-900, 0));
+                        tempSpawnPosition.Set(Random.Range(-8, -250), 4, Random.Range(-90, 0));
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                         SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
                     }
-                    //trees and bushes right
+                    //trees
                     for (int i = 0; i < 30; i++)
                     {
-                        tempSpawnPosition.Set(Random.Range(80, 2500), 7.8f, Random.Range(-900, 0));
+                        tempSpawnPosition.Set(Random.Range(8, 250), 1f, Random.Range(-90, 0));
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                         SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
-                        tempSpawnPosition.Set(Random.Range(-80, -2500), 7.8f, Random.Range(-900, 0));
+                        tempSpawnPosition.Set(Random.Range(-8, -250), 1f, Random.Range(-90, 0));
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                         SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
                     }
@@ -211,20 +211,20 @@ public class WorldController : MonoBehaviour
                     break;
                 case landscapePresets.city:
                     //buildings left
-                    tempSpawnPosition.Set(Random.Range(350, 2500), buildinglength[Random.Range(0, 3)], Random.Range(-500, 0));
+                    tempSpawnPosition.Set(Random.Range(35, 250), buildinglength[Random.Range(0, 3)], Random.Range(-50, 0));
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
                     SpawnObject(BuildingsList, tempSpawnPosition, tempSpawnRotation);
 
-                    tempSpawnPosition.Set(Random.Range(80, 2500), 7.8f, Random.Range(-900, 0));
+                    tempSpawnPosition.Set(Random.Range(8, 250), 7.8f, Random.Range(-90, 0));
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
                     SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
                     //buildings right
-                    tempSpawnPosition.Set(Random.Range(-350, -2500), buildinglength[Random.Range(0, 3)], Random.Range(-500, 0));
+                    tempSpawnPosition.Set(Random.Range(-35, -250), buildinglength[Random.Range(0, 3)], Random.Range(-50, 0));
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
                     SpawnObject(BuildingsList, tempSpawnPosition, tempSpawnRotation);
 
-                    tempSpawnPosition.Set(Random.Range(-80, -2500), 7.8f, Random.Range(-900, 0));
+                    tempSpawnPosition.Set(Random.Range(-8, -250), 7.8f, Random.Range(-90, 0));
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
                     SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
@@ -234,19 +234,20 @@ public class WorldController : MonoBehaviour
                     for (int i = 0; i < 3; i++)
                     {
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
-                        tempSpawnPosition.Set(Random.Range(80, 2500), 20, Random.Range(-1000, 0));                        
+
+                        tempSpawnPosition.Set(Random.Range(8, 250), 2, Random.Range(-100, 0));
                         SpawnObject(CactusesList, tempSpawnPosition, tempSpawnRotation);
 
-                        tempSpawnPosition.Set(Random.Range(-80, -2500), 20, Random.Range(-1000, 0));
+                        tempSpawnPosition.Set(Random.Range(-8, -250), 2, Random.Range(-100, 0));
                         SpawnObject(CactusesList, tempSpawnPosition, tempSpawnRotation);
                     }
 
                     //DesertFormations left or right
                     tempSpawnRotation.Set(0, degrees[Random.Range(0, 3)], 0, tempSpawnRotation.w);
-                    tempSpawnPosition.Set(Random.Range(1000, 2500), 0, Random.Range(-200, 0));
+                    tempSpawnPosition.Set(Random.Range(100, 250), 0, Random.Range(-20, 0));
                     SpawnObject(DesertFormationsList, tempSpawnPosition, tempSpawnRotation);
 
-                    tempSpawnPosition.Set(Random.Range(-1000, -2500), 0, Random.Range(-200, 0));
+                    tempSpawnPosition.Set(Random.Range(-100, -250), 0, Random.Range(-20, 0));
                     SpawnObject(DesertFormationsList, tempSpawnPosition, tempSpawnRotation);
 
                     break;
@@ -256,17 +257,17 @@ public class WorldController : MonoBehaviour
                     tempSpawnRotation.Set(0, 0, 0, tempSpawnRotation.w);
                     SpawnObject(BridgesList, tempSpawnPosition, tempSpawnRotation);
 
-                    tempSpawnPosition.Set(0, 0, 405);
+                    tempSpawnPosition.Set(0, 0, 40.5f);
                     SpawnObject(BridgesList, tempSpawnPosition, tempSpawnRotation);
 
                     //Waves
                     for (int i = 0; i < 1; i++)
                     {
-                        tempSpawnPosition.Set(Random.Range(250, 1500), 7.8f, Random.Range(-200, 0));
+                        tempSpawnPosition.Set(Random.Range(25, 150), 1f, Random.Range(-20, 0));
                         tempSpawnRotation.Set(0, 90, 0, tempSpawnRotation.w);
                         SpawnObject(WavesList, tempSpawnPosition, tempSpawnRotation);
 
-                        tempSpawnPosition.Set(Random.Range(-250, -1500), 7.8f, Random.Range(-200, 0));
+                        tempSpawnPosition.Set(Random.Range(-25, -150), 1f, Random.Range(-20, 0));
                         SpawnObject(WavesList, tempSpawnPosition, tempSpawnRotation);
                     }
                     break;
@@ -415,14 +416,14 @@ public class WorldController : MonoBehaviour
         //For all other terrains do:
         for (int i = 0; i < 4; i++)
         {
-            if (i != currentTerrainNumber && LandscapeTerrain[i].transform.position.z <= 1000)
+            if (i != currentTerrainNumber && LandscapeTerrain[i].transform.position.z <= 100)
             {
                 var pos = LandscapeTerrain[i].transform.position;
                 pos.y = -0.25f;
 
                 if (LandscapeTerrain[i].activeInHierarchy == false)
                 {
-                    pos.z = -5000;
+                    pos.z = -500;
                 }
 
                 LandscapeTerrain[i].transform.position = pos;

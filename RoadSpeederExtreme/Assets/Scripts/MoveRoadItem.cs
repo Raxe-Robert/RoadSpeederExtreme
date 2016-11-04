@@ -45,9 +45,10 @@ public class MoveRoadItem : MonoBehaviour
         
         if (this.tag == "Traffic")
         {
-            transform.Translate(0, 0, playerSpeed * 2 * Time.deltaTime - 120 * Time.deltaTime, Space.World);
 
-            if (transform.position.z >= 5100)
+            transform.Translate(0, 0, (playerSpeed - 120) / 2 * Time.deltaTime, Space.World);
+
+            if (transform.position.z >= 510)
             {
                 gameObject.SetActive(false);
                 myPool.Add(gameObject);

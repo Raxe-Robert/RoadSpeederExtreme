@@ -5,7 +5,6 @@ public class GameController : MonoBehaviour {
 
     public int maxPlayerSpeed;
     public int playerSpeed;
-    public int acceleration;
     public float playerScore;
 
     public int timerSeconds = 0;
@@ -23,9 +22,8 @@ public class GameController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        maxPlayerSpeed = 600;
-        playerSpeed = 130;
-        acceleration = 0;
+        maxPlayerSpeed = 400; 
+        playerSpeed = 160; 
         playerScore = 0;
 
         playerScript = GameObject.Find("Playercar").GetComponent<PlayerScript>();
@@ -63,9 +61,14 @@ public class GameController : MonoBehaviour {
         //Increase speed every x
         while (true)
         {
-            playerSpeed++;
-            acceleration++;                     
-            yield return new WaitForSeconds(acceleration / 1000f);
+            if (playerSpeed < maxPlayerSpeed)
+            {
+                Debug.Log(playerSpeed);
+                playerSpeed += 2;
+            }
+
+
+            yield return new WaitForSeconds(0.1f * (playerSpeed / 100f));
         }
     }
 

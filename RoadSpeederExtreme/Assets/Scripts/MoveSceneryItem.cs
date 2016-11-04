@@ -30,7 +30,7 @@ public class MoveSceneryItem : MonoBehaviour
         {
             case "Clouds":
                 myPool = WorldControllerScript.poolListsContainer[1];
-                transform.position = new Vector3(Random.Range(-4000, 4000), Random.Range(680, 700), Random.Range(-3000, 2800));
+                transform.position = new Vector3(Random.Range(-400, 400), Random.Range(68, 70), Random.Range(-300, 280));
                 break;
             case "Trees":
                 myPool = WorldControllerScript.poolListsContainer[2];
@@ -66,29 +66,29 @@ public class MoveSceneryItem : MonoBehaviour
 
         if (this.tag == "Clouds")
         {
-            transform.Translate(0.1f, 0, 0.05f, Space.World);
-            transform.Translate(0, 0, (playerSpeed / 5 * Time.deltaTime), Space.World);
+            transform.Translate(0.01f, 0, 0.005f, Space.World);
+            transform.Translate(0, 0, (playerSpeed / 4 * Time.deltaTime), Space.World);
 
-            if (transform.position.z >= 2900)
+            if (transform.position.z >= 290)
             {
                 var pos = transform.position;
-                pos.z = -3000;
+                pos.z = -300;
                 transform.position = pos;
             }
         }
         else if (this.tag == "Terrain")
         {
-            if (transform.position.z <= 1000)
-                transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
+            if (transform.position.z <= 100)
+                transform.Translate(0, 0, playerSpeed * Time.deltaTime, Space.World);
 
-            if (transform.position.z > 1000 && disableAllOtherTerrains == true)
+            if (transform.position.z > 100 && disableAllOtherTerrains == true)
             {
                 foreach (var terrain in WorldControllerScript.LandscapeTerrain)
                 {
-                    if (terrain.name != this.name && terrain.transform.position.z > 1000)
+                    if (terrain.name != this.name && terrain.transform.position.z > 100)
                     {
                         var posOther = terrain.transform.position;
-                        posOther.z = -5000;
+                        posOther.z = -500;
                         terrain.transform.position = posOther;
 
                         terrain.SetActive(false);
@@ -104,9 +104,9 @@ public class MoveSceneryItem : MonoBehaviour
         }
         else if (this.tag == "Bridges")
         {
-            transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
+            transform.Translate(0, 0, playerSpeed * Time.deltaTime, Space.World);
 
-            if (transform.position.z >= 5600)
+            if (transform.position.z >= 560)
             {
                 gameObject.SetActive(false);
                 if (myPool != null)
@@ -115,9 +115,9 @@ public class MoveSceneryItem : MonoBehaviour
         }
         else
         {
-            transform.Translate(0, 0, playerSpeed * 4 * Time.deltaTime, Space.World);
+            transform.Translate(0, 0, playerSpeed * Time.deltaTime, Space.World);
 
-            if (transform.position.z >= 5100)
+            if (transform.position.z >= 510)
             {
                 gameObject.SetActive(false);
                 if (myPool != null)
