@@ -1,8 +1,5 @@
-import UnityEngine;
-import System.Collections;
-import UnityEngine.SceneManagement;
 
-public class GameController extends MonoBehaviour {
+import UnityEngine.SceneManagement;
 
     public var maxPlayerSpeed: int;
     public var playerSpeed: int;
@@ -24,7 +21,7 @@ public class GameController extends MonoBehaviour {
     
 
     // Use this for initialization
-    private function Start() {
+    function Start() {
         maxPlayerSpeed = 400; 
         playerSpeed = 160; 
         playerScore = 0;
@@ -46,7 +43,7 @@ public class GameController extends MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	private function Update() {
+	function Update() {
         //Pause or unpause depending on current timeScale
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -109,7 +106,7 @@ public class GameController extends MonoBehaviour {
         }
     }
 
-    private function UnpauseGame(): IEnumerator
+    function UnpauseGame(): IEnumerator
     {
         unpauseCountdown = unpauseCountdownValue;
 
@@ -135,4 +132,4 @@ public class GameController extends MonoBehaviour {
         StartCoroutine(UnpauseGame());
     }
 
-}
+

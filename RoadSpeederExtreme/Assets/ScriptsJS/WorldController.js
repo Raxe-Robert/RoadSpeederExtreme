@@ -1,9 +1,5 @@
-import UnityEngine;
-import System.Collections;
-import System.Collections.Generic;
 
-public class WorldController extends MonoBehaviour
-{
+
     @SerializeField
     var spawnableNature: GameObject[];
 
@@ -58,7 +54,7 @@ public class WorldController extends MonoBehaviour
     private var tempSpawnRotation: Quaternion;
 
     // Use this for initialization
-    private function Start()
+    function Start()
     {
         scene = GameObject.Find("scene");
 
@@ -116,7 +112,7 @@ public class WorldController extends MonoBehaviour
     }
 
     // Update is called once per frame
-    private function Update()
+    function Update()
     {
         playerSpeed = GameControllerScript.playerSpeed;
 
@@ -135,7 +131,7 @@ public class WorldController extends MonoBehaviour
     {
         while (true)
         {
-            
+            Debug.Log("hello");
             //cars
             //1 or 2
             var tempAmountCars: int = Random.Range(1, 3);
@@ -167,11 +163,12 @@ public class WorldController extends MonoBehaviour
             }
             
 
-            var waitTime: float = spawnrateRoad / (playerSpeed / 70);
-            if (waitTime <= 0)
-                waitTime = 0.1;
-
-            yield  WaitForSeconds(waitTime);
+            var waitTime: float = (spawnrateRoad / playerSpeed / 70f);
+            if (waitTime <= 0.33)
+                waitTime = 0.33;
+            if (playerSpeed <= 0)
+            	waitTime = 2f;
+            yield WaitForSeconds(waitTime);
         }
     }
 
@@ -285,24 +282,22 @@ public class WorldController extends MonoBehaviour
     }
 
     //Set objective active at spawnPosition
-    void SpawnObject(objectList: List.<GameObject>, spawnPosition: Vector3, spawnRotation: Quaternion)
+    function SpawnObject(objectList: List.<GameObject>, spawnPosition: Vector3, spawnRotation: Quaternion)
     {
         if (objectList.Count > 0)
         {
-            private var newObject = objectList[objectList.Count - 1];
+            var newObject = objectList[objectList.Count - 1];
             newObject.gameObject.transform.position = spawnPosition;
             newObject.gameObject.transform.rotation = spawnRotation;
             newObject.gameObject.SetActive(true);
             objectList.RemoveAt(objectList.Count - 1);
-        }
-        else
-        {
+        } else {
             Debug.Log("too few objects:" + objectList.Count);
         }
     }
 
     //Populate with given object
-    void PopulatePool(gameObject: GameObject, objectPool: GameObject, objectPoolList: List.<GameObject>, objectAmount: int, activeOnCreate: boolean)
+    function PopulatePool(gameObject: GameObject, objectPool: GameObject, objectPoolList: List.<GameObject>, objectAmount: int, activeOnCreate: boolean)
     {
         for (var i: int = 0; i < objectAmount; i++)
         {
@@ -317,11 +312,11 @@ public class WorldController extends MonoBehaviour
     }
 
     //Populate with random object from given object list
-    void PopulatePool(gameObjectList: GameObject[], objectPool: GameObject, objectPoolList: List.<GameObject>, objectAmount: int, activeOnCreate: boolean)
+    function PopulatePool(gameObjectList: GameObject[], objectPool: GameObject, objectPoolList: List.<GameObject>, objectAmount: int, activeOnCreate: boolean)
     {
         for (var i: int = 0; i < objectAmount; i++)
         {
-            private var gameObject = gameObjectList[Random.Range(0, gameObjectList.Length)];
+            var gameObject = gameObjectList[Random.Range(0, gameObjectList.Length)];
             lastCreatedObject = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation) as GameObject;
             lastCreatedObject.transform.SetParent(objectPool.transform);
 
@@ -340,29 +335,29 @@ public class WorldController extends MonoBehaviour
         switch (randomPreset)
         {
             case 0:
-                if (currentLandscape == landscapePresets.city || previousLandscape == landscapePresets.city)
-                    goto case 1;
+                //if (currentLandscape == landscapePresets.city || previousLandscape == landscapePresets.city)
+                //    goto case 1;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.city;
                 landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
                 break;
             case 1:
-                if (currentLandscape == landscapePresets.forest || previousLandscape == landscapePresets.forest)
-                    goto case 2;
+                //if (currentLandscape == landscapePresets.forest || previousLandscape == landscapePresets.forest)
+                //    goto case 2;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.forest;
                 landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
                 break;
             case 2:
-                if (currentLandscape == landscapePresets.desert || previousLandscape == landscapePresets.desert)
-                    goto case 3;
+                //if (currentLandscape == landscapePresets.desert || previousLandscape == landscapePresets.desert)
+                //    goto case 3;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.desert;
                 landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
                 break;
             case 3:
-                if (currentLandscape == landscapePresets.ocean || previousLandscape == landscapePresets.ocean)
-                    goto case 0;
+                //if (currentLandscape == landscapePresets.ocean || previousLandscape == landscapePresets.ocean)
+                //    goto case 0;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.ocean;
                 landscapeDuration = 2;
@@ -418,7 +413,7 @@ public class WorldController extends MonoBehaviour
         {
             if (i != currentTerrainNumber && LandscapeTerrain[i].transform.position.z <= 100)
             {
-                var pos = LandscapeTerrain[i].transform.position;
+                pos = LandscapeTerrain[i].transform.position;
                 pos.y = -0.25;
 
                 if (LandscapeTerrain[i].activeInHierarchy == false)
@@ -430,4 +425,4 @@ public class WorldController extends MonoBehaviour
             }
         }
     }
-}
+

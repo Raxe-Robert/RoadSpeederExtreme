@@ -1,8 +1,5 @@
-import UnityEngine;
-import System.Collections;
-import UnityEngine.UI;
 
-public class PlayerScript extends MonoBehaviour {
+import UnityEngine.UI;
 
 	@SerializeField
 	var GameControllerScript: GameController;
@@ -12,14 +9,14 @@ public class PlayerScript extends MonoBehaviour {
 	public var currentLane: lanes;
 
 	// Use this for initialization
-	private function Start() {
+	function Start() {
         currentLane = lanes.middle;
 		GameControllerScript = GameObject.Find("GameScripts").GetComponent.<GameController>();
 		UIhandlerScript = GameObject.Find("UI").GetComponent.<UIhandler>();
     }
 	
 	// Update is called once per frame
-	private function Update() {
+	function Update() {
 		
 		if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
 		{
@@ -50,7 +47,7 @@ public class PlayerScript extends MonoBehaviour {
 		}
 	}
 
-	private function OnTriggerEnter(other: Collider)
+	function OnTriggerEnter(other: Collider)
 	{
 		var otherScript: MoveRoadItem = other.gameObject.GetComponent.<MoveRoadItem>();
 		if (other.gameObject.tag == "Traffic")
@@ -79,7 +76,7 @@ public class PlayerScript extends MonoBehaviour {
 		}
 	}
 
-	private function NearMiss(otherScript: MoveRoadItem): boolean
+	function NearMiss(otherScript: MoveRoadItem): boolean
 	{
 		if (currentLane == lanes.middle)
 		{
@@ -92,4 +89,4 @@ public class PlayerScript extends MonoBehaviour {
 
 		return false;
 	}
-}
+

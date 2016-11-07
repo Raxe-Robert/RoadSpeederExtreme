@@ -18,8 +18,6 @@ public class GameController : MonoBehaviour {
     GameObject gameTimer;
     GameObject scoreBoard;
 
-    GameObject resumeButton;
-
     PlayerScript playerScript;
     
 
@@ -36,8 +34,6 @@ public class GameController : MonoBehaviour {
 
         gameTimer = GameObject.Find("GameTimer");
 
-        resumeButton = GameObject.Find("UnpauseButton");
-        
         scoreBoard = GameObject.Find("HighScoreBoard");
         scoreBoard.SetActive(false);
 

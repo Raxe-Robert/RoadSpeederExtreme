@@ -1,10 +1,4 @@
-import UnityEngine;
-import System.Collections;
 import System.Collections.Generic;
-
-public class MoveRoadItem extends MonoBehaviour
-{
-
     @SerializeField
     var playerSpeed: float;
 
@@ -12,27 +6,27 @@ public class MoveRoadItem extends MonoBehaviour
     private var WorldControllerScript: WorldController;
     private var myPool: List.<GameObject>;
 
-    public enum lanes { left, middle, right };
-    public var currentLane: lanes;
+    public enum roadLanes { left, middle, right };
+    public var currentLane: roadLanes;
 
-    private function OnEnable()
+    function OnEnable()
     {
         if (transform.position.x == 0)
         {
-            currentLane = lanes.middle;
+            currentLane = roadLanes.middle;
         }
         if (transform.position.x < 0)
         {
-            currentLane = lanes.right;
+            currentLane = roadLanes.right;
         }
         if (transform.position.x > 0)
         {
-            currentLane = lanes.left;
+            currentLane = roadLanes.left;
         }
     }
 
     // Use this for initialization
-    private function Start()
+    function Start()
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent.<GameController>();
         WorldControllerScript = GameObject.Find("GameScripts").GetComponent.<WorldController>();
@@ -43,7 +37,7 @@ public class MoveRoadItem extends MonoBehaviour
     }
 
     // Update is called once per frame
-    private function Update()
+    function Update()
     {
         playerSpeed = GameControllerScript.playerSpeed;
         
@@ -59,4 +53,4 @@ public class MoveRoadItem extends MonoBehaviour
             }
         }
     }
-}
+

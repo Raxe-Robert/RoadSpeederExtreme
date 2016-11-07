@@ -1,8 +1,5 @@
-import UnityEngine;
-import System.Collections;
 
-public class MoveScoreMessage extends MonoBehaviour {
-    
+
     private var rectTransformCurrent: RectTransform;
 
     private var yDirectionSpeed: float;
@@ -15,7 +12,7 @@ public class MoveScoreMessage extends MonoBehaviour {
 
     private var setEnablePosition: boolean;
 
-    private function OnEnable()
+    function OnEnable()
     {
         setEnablePosition = true;
 
@@ -29,20 +26,21 @@ public class MoveScoreMessage extends MonoBehaviour {
     }
 
 	// Use this for initialization
-	private function Start() {
+	function Start() {
         rectTransformCurrent = GetComponent.<RectTransform>();
 
         setEnablePosition = true;
     }
 
-    private function Update()
+    function Update()
     {
         if(setEnablePosition)
             WarpText();
-        
+
+
+        var pos = rectTransformCurrent.anchoredPosition;
         if (lifetime >= 0)
         {
-            var pos = rectTransformCurrent.anchoredPosition;
             pos.y += yDirectionSpeed * moveSpeed * Time.deltaTime;
             pos.x += xDirectionSpeed * moveSpeed * Time.deltaTime;
             rectTransformCurrent.anchoredPosition = pos;
@@ -51,7 +49,6 @@ public class MoveScoreMessage extends MonoBehaviour {
         }
         else
         {
-            var pos = rectTransformCurrent.anchoredPosition;
             pos.y = 0;
             pos.x = 0;
             rectTransformCurrent.anchoredPosition = pos;
@@ -60,7 +57,7 @@ public class MoveScoreMessage extends MonoBehaviour {
         }
     }
 
-    private function WarpText()
+    function WarpText()
     {
         //Set the pos further so no overlapping occurs with playerScore
         var pos = rectTransformCurrent.anchoredPosition;
@@ -70,4 +67,4 @@ public class MoveScoreMessage extends MonoBehaviour {
 
         setEnablePosition = false;
     }
-}
+

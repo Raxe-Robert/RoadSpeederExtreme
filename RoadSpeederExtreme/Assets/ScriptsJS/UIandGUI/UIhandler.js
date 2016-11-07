@@ -1,9 +1,5 @@
-import UnityEngine;
-import System.Collections;
-import UnityEngine.UI;
-import System.Collections.Generic;
 
-public class UIhandler extends MonoBehaviour {
+import UnityEngine.UI;
 
     @SerializeField
     var playerSpeed: Text;
@@ -30,7 +26,7 @@ public class UIhandler extends MonoBehaviour {
 
 
 	// Use this for initialization
-	private function Start() {
+	function Start() {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent.<GameController>();
         pool_ScoreMessages = GameObject.Find("pool_ScoreMessages");
         scoreMessagesList = new List.<Text>();
@@ -51,10 +47,11 @@ public class UIhandler extends MonoBehaviour {
         StartCoroutine(UpdateUiElements());
     }
 
-    public function NewMessage(text: String)
+    function NewMessage(text: String)
     {
-        for (var messageObject: in scoreMessagesList)
+        for (i = 0; i < scoreMessagesList.Count; i++)
         {
+        	var messageObject = scoreMessagesList[i];
             if (messageObject.isActiveAndEnabled == false)
             {
                 messageObject.text = text;
@@ -91,4 +88,4 @@ public class UIhandler extends MonoBehaviour {
             yield  WaitForSecondsRealtime(0.1);
         }
     }
-}
+

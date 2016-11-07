@@ -1,11 +1,6 @@
-import UnityEngine;
-import System.Collections;
-import System.Collections.Generic;
 
-public class MoveSceneryItem extends MonoBehaviour
-{
 
-    @SerializeField
+        @SerializeField
     var playerSpeed: float;
 
     private var disableAllOtherTerrains: boolean;
@@ -14,13 +9,13 @@ public class MoveSceneryItem extends MonoBehaviour
     private var WorldControllerScript: WorldController;
     private var myPool: List.<GameObject>;
 
-    private function OnEnable()
+    function OnEnable()
     {
         disableAllOtherTerrains = true;
     }
 
     // Use this for initialization
-    private function Start()
+    function Start()
     {
         GameControllerScript = GameObject.Find("GameScripts").GetComponent.<GameController>();
         WorldControllerScript = GameObject.Find("GameScripts").GetComponent.<WorldController>();
@@ -60,7 +55,7 @@ public class MoveSceneryItem extends MonoBehaviour
     }
 
     // Update is called once per frame
-    private function Update()
+    function Update()
     {
         playerSpeed = GameControllerScript.playerSpeed;
 
@@ -83,8 +78,9 @@ public class MoveSceneryItem extends MonoBehaviour
 
             if (transform.position.z > 100 && disableAllOtherTerrains == true)
             {
-                for (var terrain: var in WorldControllerScript.LandscapeTerrain)
+                for (i = 0; i < WorldControllerScript.LandscapeTerrain.Length; i++ )
                 {
+                	var terrain = WorldControllerScript.LandscapeTerrain[i];
                     if (terrain.name != this.name && terrain.transform.position.z > 100)
                     {
                         var posOther = terrain.transform.position;
@@ -95,9 +91,9 @@ public class MoveSceneryItem extends MonoBehaviour
                     }
                 }
 
-                var pos = transform.position;
-                pos.y = -0.5;
-                transform.position = pos;
+                var pos2 = transform.position;
+                pos2.y = -0.5;
+                transform.position = pos2;
 
                 disableAllOtherTerrains = false;
             }
@@ -125,4 +121,4 @@ public class MoveSceneryItem extends MonoBehaviour
             }
         }
     }
-}
+

@@ -13,7 +13,6 @@ public class WorldController : MonoBehaviour
     [SerializeField]
     GameObject[] spawnableBuildings;
 
-    GameObject scene;
     GameObject lastCreatedObject;
 
     GameObject pool_Traffic;
@@ -60,8 +59,6 @@ public class WorldController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        scene = GameObject.Find("scene");
-
         GameControllerScript = GameObject.Find("GameScripts").GetComponent<GameController>();
 
         pool_Traffic = GameObject.Find("pool_Traffic");
@@ -228,6 +225,17 @@ public class WorldController : MonoBehaviour
                     tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                     SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
+					//Trees
+					for (int i = 0; i < 5; i++)
+					{
+						tempSpawnPosition.Set(Random.Range(8, 250), 4, Random.Range(-90, 0));
+						tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+						SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
+
+						tempSpawnPosition.Set(Random.Range(-8, -250), 4, Random.Range(-90, 0));
+						tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+						SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
+					}
                     break;
                 case landscapePresets.desert:
                     //Cactuses
