@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour {
                 pauseMenu.SetActive(true);
                 Time.timeScale = 0;
             }
-            else if (Time.timeScale == 0 && unpauseCountdown <=0)
+            else if (Time.timeScale == 0 && unpauseCountdown <=0 && scoreBoard.gameObject.activeSelf == false)
                 StartCoroutine(UnpauseGame());
         } 
          

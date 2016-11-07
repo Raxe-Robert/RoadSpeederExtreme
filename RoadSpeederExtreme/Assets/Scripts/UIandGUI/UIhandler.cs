@@ -83,7 +83,7 @@ public class UIhandler : MonoBehaviour {
             float speedPercentage = 0;
             if (GameControllerScript.playerSpeed >= 0 || GameControllerScript.playerSpeed <= GameControllerScript.maxPlayerSpeed)
             {
-                speedPercentage = (float)GameControllerScript.playerSpeed / (float)GameControllerScript.maxPlayerSpeed * 100f;
+                speedPercentage = (float)GameControllerScript.playerSpeed / GameControllerScript.maxPlayerSpeed * 100f;
 
                 speedPointer.rectTransform.rotation = Quaternion.Euler(0, 0, 90 - speedPercentage * 1.8f);
             }

@@ -48,14 +48,6 @@ public class PlayerScript : MonoBehaviour {
 				transform.position = new Vector3(-3.5f, 0.75f, 497);
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-		{
-			GameControllerScript.playerSpeed += 100;
-		}
-		if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-		{
-			GameControllerScript.playerSpeed -= 100;
-		}
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -71,21 +63,25 @@ public class PlayerScript : MonoBehaviour {
 			//Check for a near miss
 			else if (NearMiss(otherScript))
 			{
-				GameControllerScript.playerScore += 10;
-				UIhandlerScript.NewMessage(10.ToString());
+                int scoreToAdd = 10 + (60 * GameControllerScript.timerMinutes) + (10 * (GameControllerScript.timerSeconds / 10));
+
+                GameControllerScript.playerScore += scoreToAdd;
+                UIhandlerScript.NewMessage(scoreToAdd.ToString());
 			}
 			//If there is one lane between playercar and traffic car
 			else
 			{
-				GameControllerScript.playerScore += 5;
-				UIhandlerScript.NewMessage(5.ToString());
+                int scoreToAdd = 5 + (30 * GameControllerScript.timerMinutes) + (5 * (GameControllerScript.timerSeconds / 10));
+
+                GameControllerScript.playerScore += scoreToAdd;
+				UIhandlerScript.NewMessage(scoreToAdd.ToString());
 			}	
 		}
 	}
 
 	bool NearMiss(MoveRoadItem otherScript)
 	{
-		if (currentLane.ToString() == "middle")
+		if (currentLane == lanes.middle)
 		{
 			return true;
 		}

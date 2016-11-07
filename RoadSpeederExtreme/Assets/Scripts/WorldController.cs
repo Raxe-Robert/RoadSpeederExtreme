@@ -98,13 +98,13 @@ public class WorldController : MonoBehaviour
         //Populate pools
         PopulatePool(spawnableTraffic, pool_Traffic, TrafficList, 20, false);
         PopulatePool(spawnableNature[1], pool_Clouds, CloudsList, 150, true);
-        PopulatePool(spawnableNature[0], pool_Trees, TreesList, 400, false);
-        PopulatePool(spawnableNature[2], pool_Bushes, BushesList, 400, false);
-        PopulatePool(spawnableBuildings[0], pool_Buildings, BuildingsList, 50, false);
-        PopulatePool(spawnableNature[4], pool_Cactuses, CactusesList, 150, false);
-        PopulatePool(spawnableNature[5], pool_DesertFormations, DesertFormationsList, 20, false);
-        PopulatePool(spawnableBuildings[1], pool_Bridges, BridgesList, 150, false);
-        PopulatePool(spawnableNature[6], pool_Waves, WavesList, 20, false);
+        PopulatePool(spawnableNature[0], pool_Trees, TreesList, 360, false);
+        PopulatePool(spawnableNature[2], pool_Bushes, BushesList, 360, false);
+        PopulatePool(spawnableBuildings[0], pool_Buildings, BuildingsList, 15, false);
+        PopulatePool(spawnableNature[4], pool_Cactuses, CactusesList, 70, false);
+        PopulatePool(spawnableNature[5], pool_DesertFormations, DesertFormationsList, 12, false);
+        PopulatePool(spawnableBuildings[1], pool_Bridges, BridgesList, 15, false);
+        PopulatePool(spawnableNature[6], pool_Waves, WavesList, 15, false);
 
         playerSpeed = GameControllerScript.playerSpeed;
         landscapeDuration = Random.Range(20, 30);
@@ -231,7 +231,7 @@ public class WorldController : MonoBehaviour
                     break;
                 case landscapePresets.desert:
                     //Cactuses
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 5; i++)
                     {
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
 
@@ -297,7 +297,6 @@ public class WorldController : MonoBehaviour
         }
         else
         {
-            
             Debug.Log("too few objects:" + objectList.Count);
         }
     }
