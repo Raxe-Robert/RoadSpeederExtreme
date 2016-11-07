@@ -53,6 +53,7 @@ public class PlayerScript : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		MoveRoadItem otherScript = other.gameObject.GetComponent<MoveRoadItem>();
+        MoveSceneryItem sceneryScript = other.gameObject.GetComponent<MoveSceneryItem>();
 		if (other.gameObject.tag == "Traffic")
 		{
 			//If the lanes are the same there is a collision
@@ -77,6 +78,13 @@ public class PlayerScript : MonoBehaviour {
 				UIhandlerScript.NewMessage(scoreToAdd.ToString());
 			}	
 		}
+        if (other.gameObject.tag == "Stepperollers")
+        {
+            int scoreToAdd = 1000;
+            Destroy(other.gameObject);
+            GameControllerScript.playerScore += scoreToAdd;
+            UIhandlerScript.NewMessage(scoreToAdd.ToString());
+        }
 	}
 
 	bool NearMiss(MoveRoadItem otherScript)

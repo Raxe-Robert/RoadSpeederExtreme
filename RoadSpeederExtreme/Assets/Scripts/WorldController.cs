@@ -24,7 +24,8 @@ public class WorldController : MonoBehaviour
     GameObject pool_DesertFormations;
     GameObject pool_Bridges;
     GameObject pool_Waves;
-    
+    GameObject pool_Rollers;
+
     public List<List<GameObject>> poolListsContainer;
     List<GameObject> TrafficList;
     List<GameObject> CloudsList;
@@ -35,6 +36,7 @@ public class WorldController : MonoBehaviour
     List<GameObject> DesertFormationsList;
     List<GameObject> BridgesList;
     List<GameObject> WavesList;
+    List<GameObject> RollerList;
     
 
     GameController GameControllerScript;
@@ -51,6 +53,7 @@ public class WorldController : MonoBehaviour
     float playerSpeed;
     float spawnrateTerrain = 1f; //seconds
     float spawnrateRoad = 2f;
+    float spawnrateRoller = 30f;
     float landscapeDuration; //seconds
 
     Vector3 tempSpawnPosition;
@@ -70,6 +73,7 @@ public class WorldController : MonoBehaviour
         pool_DesertFormations = GameObject.Find("pool_DesertFormations");
         pool_Bridges = GameObject.Find("pool_Bridges");
         pool_Waves = GameObject.Find("pool_Waves");
+        pool_Rollers = GameObject.Find("pool_Rollers");
 
         TrafficList = new List<GameObject>();
         CloudsList = new List<GameObject>();
@@ -80,6 +84,7 @@ public class WorldController : MonoBehaviour
         DesertFormationsList = new List<GameObject>();
         BridgesList = new List<GameObject>();
         WavesList = new List<GameObject>();
+        RollerList = new List<GameObject>();
 
         poolListsContainer = new List<List<GameObject>>();
         poolListsContainer.Add(TrafficList);
@@ -91,6 +96,7 @@ public class WorldController : MonoBehaviour
         poolListsContainer.Add(DesertFormationsList);
         poolListsContainer.Add(BridgesList);
         poolListsContainer.Add(WavesList);
+        poolListsContainer.Add(RollerList);
 
         //Populate pools
         PopulatePool(spawnableTraffic, pool_Traffic, TrafficList, 20, false);
@@ -102,6 +108,7 @@ public class WorldController : MonoBehaviour
         PopulatePool(spawnableNature[5], pool_DesertFormations, DesertFormationsList, 12, false);
         PopulatePool(spawnableBuildings[1], pool_Bridges, BridgesList, 15, false);
         PopulatePool(spawnableNature[6], pool_Waves, WavesList, 15, false);
+        PopulatePool(spawnableNature[3], pool_Rollers, RollerList, 5, false);
 
         playerSpeed = GameControllerScript.playerSpeed;
         landscapeDuration = Random.Range(20, 30);
@@ -109,6 +116,7 @@ public class WorldController : MonoBehaviour
         ChangeLandscape();
 
         StartCoroutine(RoadPopulator());
+        StartCoroutine(RollerPopulator());
         StartCoroutine(TerrainPopulator());
     }
 
@@ -169,6 +177,23 @@ public class WorldController : MonoBehaviour
                 waitTime = 0.1f;
 
             yield return new WaitForSeconds(waitTime);
+        }
+    }
+
+    IEnumerator RollerPopulator()
+    {
+        while (true)
+        {
+            if (currentLandscape == landscapePresets.desert)
+            {
+                tempSpawnPosition.Set(Random.Range(-5f,-10f), 0.7f, Random.Range(300f,450f));
+                SpawnObject(RollerList, tempSpawnPosition, tempSpawnRotation);
+            }
+                float waitTime = spawnrateRoller / (playerSpeed / 70);
+                if (waitTime <= 0)
+                    waitTime = 0.1f;
+
+                yield return new WaitForSeconds(waitTime);
         }
     }
 
