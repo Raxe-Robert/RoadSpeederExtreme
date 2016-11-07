@@ -39,7 +39,17 @@ public class MoveRoadItem : MonoBehaviour
 
         playerSpeed = GameControllerScript.playerSpeed;
 
-        myPool = WorldControllerScript.poolListsContainer[0];
+        switch (this.tag)
+        {
+            case "Traffic":
+                myPool = WorldControllerScript.poolListsContainer[0];
+                break;
+            case "Stepperollers":
+                myPool = WorldControllerScript.poolListsContainer[9];
+                break;
+            default:
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -55,7 +65,21 @@ public class MoveRoadItem : MonoBehaviour
             if (transform.position.z >= 510)
             {
                 gameObject.SetActive(false);
-                myPool.Add(gameObject);
+                if (myPool != null)
+                    myPool.Add(gameObject);
+            }
+        }
+        else if (this.tag == "Stepperollers")
+        {
+            transform.Translate(0.05f, 0, 0.006f, Space.World);
+            transform.Translate(0, 0, (playerSpeed / 4 * Time.deltaTime), Space.World);
+            transform.Rotate(-1f, 0, -5f);
+
+            if (transform.position.z >= 560)
+            {
+                gameObject.SetActive(false);
+                if (myPool != null)
+                    myPool.Add(gameObject);
             }
         }
     }

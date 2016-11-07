@@ -116,8 +116,8 @@ public class WorldController : MonoBehaviour
         ChangeLandscape();
 
         StartCoroutine(RoadPopulator());
-        StartCoroutine(RollerPopulator());
         StartCoroutine(TerrainPopulator());
+        StartCoroutine(BonusItemSpawner());
     }
 
     // Update is called once per frame
@@ -135,7 +135,24 @@ public class WorldController : MonoBehaviour
             landscapeDuration -= Time.deltaTime;
         
     }
-    
+
+    IEnumerator BonusItemSpawner()
+    {
+        while (true)
+        {
+            if (currentLandscape == landscapePresets.desert)
+            {
+                tempSpawnPosition.Set(Random.Range(-5f, -10f), 0.7f, Random.Range(300f, 450f));
+                SpawnObject(RollerList, tempSpawnPosition, tempSpawnRotation);
+            }
+            float waitTime = spawnrateRoller / (playerSpeed / 70);
+            if (waitTime <= 0)
+                waitTime = 0.1f;
+
+            yield return new WaitForSeconds(waitTime);
+        }
+    }
+
     IEnumerator RoadPopulator()
     {
         while (true)
@@ -177,23 +194,6 @@ public class WorldController : MonoBehaviour
                 waitTime = 0.1f;
 
             yield return new WaitForSeconds(waitTime);
-        }
-    }
-
-    IEnumerator RollerPopulator()
-    {
-        while (true)
-        {
-            if (currentLandscape == landscapePresets.desert)
-            {
-                tempSpawnPosition.Set(Random.Range(-5f,-10f), 0.7f, Random.Range(300f,450f));
-                SpawnObject(RollerList, tempSpawnPosition, tempSpawnRotation);
-            }
-                float waitTime = spawnrateRoller / (playerSpeed / 70);
-                if (waitTime <= 0)
-                    waitTime = 0.1f;
-
-                yield return new WaitForSeconds(waitTime);
         }
     }
 

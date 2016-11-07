@@ -32,9 +32,6 @@ public class MoveSceneryItem : MonoBehaviour
                 myPool = WorldControllerScript.poolListsContainer[1];
                 transform.position = new Vector3(Random.Range(-400, 400), Random.Range(68, 70), Random.Range(-300, 280));
                 break;
-            case "Stepperollers":
-                myPool = WorldControllerScript.poolListsContainer[9];
-                break;
             case "Trees":
                 myPool = WorldControllerScript.poolListsContainer[2];
                 break;
@@ -76,20 +73,6 @@ public class MoveSceneryItem : MonoBehaviour
             {
                 var pos = transform.position;
                 pos.z = -300;
-                transform.position = pos;
-            }
-        }
-        else if (this.tag == "Stepperollers")
-        {
-            transform.Translate(0.05f, 0, 0.006f, Space.World);
-            transform.Translate(0, 0, (playerSpeed / 4 * Time.deltaTime), Space.World);
-            transform.Rotate(-1f, 0, -5f);
-
-            if (transform.position.z >= 560)
-            {                
-                var pos = transform.position;
-                pos.z = 100;
-                pos.x = -10f;
                 transform.position = pos;
             }
         }

@@ -21,8 +21,8 @@ GameObject:
   - 4: {fileID: 4000014113411644}
   - 33: {fileID: 33000011180057716}
   - 23: {fileID: 23000013695039290}
-  - 114: {fileID: 114000012391376510}
   - 135: {fileID: 135000011973935284}
+  - 114: {fileID: 114000011806781416}
   m_Layer: 0
   m_Name: Stepperoller
   m_TagString: Stepperollers
@@ -79,7 +79,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012473056290}
   m_Mesh: {fileID: 4300000, guid: c4a07aa5349d7fd4dadb6eeafe41ee94, type: 3}
---- !u!114 &114000012391376510
+--- !u!114 &114000011806781416
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -87,10 +87,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012473056290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d39f300844da084b8977f6c5ee2b378, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b66b95956efd5f498c75aef0aea98fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 0
+  currentLane: 0
 --- !u!135 &135000011973935284
 SphereCollider:
   m_ObjectHideFlags: 1
