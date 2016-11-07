@@ -69,7 +69,7 @@ import UnityEngine.SceneManagement;
     public function RestartGame()
     {
         //Placeholder
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("MainSceneJS");
         Time.timeScale = 1;
     }
 
@@ -84,7 +84,7 @@ import UnityEngine.SceneManagement;
             }
 
 
-            yield  WaitForSeconds(0.1 * (playerSpeed / 100));
+            yield WaitForSeconds(0.1 * (playerSpeed / 100));
         }
     }
 

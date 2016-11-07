@@ -74,6 +74,12 @@ import UnityEngine.UI;
 				UIhandlerScript.NewMessage(scoreToAdd.ToString());
 			}	
 		}
+		if (other.gameObject.tag == "Stepperollers")
+        {
+            var scoreToAddBonus: int = 1000;
+            GameControllerScript.playerScore += scoreToAddBonus;
+            UIhandlerScript.NewMessage(scoreToAddBonus.ToString());
+        }
 	}
 
 	function NearMiss(otherScript: MoveRoadItem): boolean

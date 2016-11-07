@@ -61,7 +61,7 @@
 
         if (this.tag == "Clouds")
         {
-            transform.Translate(0.01, 0, 0.005, Space.World);
+            transform.Translate(0.01f, 0, 0.005f, Space.World);
             transform.Translate(0, 0, (playerSpeed / 4 * Time.deltaTime), Space.World);
 
             if (transform.position.z >= 290)
@@ -78,10 +78,11 @@
 
             if (transform.position.z > 100 && disableAllOtherTerrains == true)
             {
+            Debug.Log(WorldControllerScript.LandscapeTerrain.Length);
                 for (i = 0; i < WorldControllerScript.LandscapeTerrain.Length; i++ )
-                {
+                {                	
                 	var terrain = WorldControllerScript.LandscapeTerrain[i];
-                    if (terrain.name != this.name && terrain.transform.position.z > 100)
+                    if (terrain != this.name && terrain.transform.position.z > 100)
                     {
                         var posOther = terrain.transform.position;
                         posOther.z = -500;
@@ -91,9 +92,9 @@
                     }
                 }
 
-                var pos2 = transform.position;
-                pos2.y = -0.5;
-                transform.position = pos2;
+                pos = transform.position;
+                pos.y = -0.5;
+                transform.position = pos;
 
                 disableAllOtherTerrains = false;
             }

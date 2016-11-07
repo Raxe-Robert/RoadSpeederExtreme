@@ -55,7 +55,7 @@ public class MoveRoadItem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerSpeed = GameControllerScript.playerSpeed;
+        var playerSpeed = GameControllerScript.playerSpeed;
         
         if (this.tag == "Traffic")
         {

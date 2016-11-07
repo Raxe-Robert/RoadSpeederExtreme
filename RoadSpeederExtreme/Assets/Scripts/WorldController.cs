@@ -412,7 +412,6 @@ public class WorldController : MonoBehaviour
                 var pos = LandscapeTerrain[0].transform.position;
                 pos.y = 0f;
                 LandscapeTerrain[0].transform.position = pos;
-
                 LandscapeTerrain[0].SetActive(true);
 
                 currentTerrainNumber = 0;
@@ -421,8 +420,7 @@ public class WorldController : MonoBehaviour
                 pos = LandscapeTerrain[1].transform.position;
                 pos.y = 0f;
                 LandscapeTerrain[1].transform.position = pos;
-
-                LandscapeTerrain[1].SetActive(true);
+				LandscapeTerrain[1].SetActive(true);
 
                 currentTerrainNumber = 1;
                 break;
@@ -430,7 +428,6 @@ public class WorldController : MonoBehaviour
                 pos = LandscapeTerrain[2].transform.position;
                 pos.y = 0f;
                 LandscapeTerrain[2].transform.position = pos;
-
                 LandscapeTerrain[2].SetActive(true);
 
                 currentTerrainNumber = 2;
@@ -439,7 +436,6 @@ public class WorldController : MonoBehaviour
                 pos = LandscapeTerrain[3].transform.position;
                 pos.y = 0f;
                 LandscapeTerrain[3].transform.position = pos;
-
                 LandscapeTerrain[3].SetActive(true);
 
                 currentTerrainNumber = 3;

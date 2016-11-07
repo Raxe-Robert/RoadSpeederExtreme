@@ -1,5 +1,3 @@
-
-
     @SerializeField
     var spawnableNature: GameObject[];
 
@@ -21,6 +19,7 @@
     private var pool_DesertFormations: GameObject;
     private var pool_Bridges: GameObject;
     private var pool_Waves: GameObject;
+    private var pool_Rollers: GameObject;
     
     public var poolListsContainer: List.<List.<GameObject> >;
     private var TrafficList: List.<GameObject>;
@@ -32,7 +31,7 @@
     private var DesertFormationsList: List.<GameObject>;
     private var BridgesList: List.<GameObject>;
     private var WavesList: List.<GameObject>;
-    
+    private var RollersList: List.<GameObject>;
 
     private var GameControllerScript: GameController;
 
@@ -48,6 +47,7 @@
     private var playerSpeed: float;
     private var spawnrateTerrain: float = 1; //seconds
     private var spawnrateRoad: float = 2;
+    private var spawnrateRoller: float = 30f;
     private var landscapeDuration: float; //seconds
 
     private var tempSpawnPosition: Vector3;
@@ -60,6 +60,7 @@
 
         GameControllerScript = GameObject.Find("GameScripts").GetComponent.<GameController>();
 
+
         pool_Traffic = GameObject.Find("pool_Traffic");
         pool_Clouds = GameObject.Find("pool_Clouds");
         pool_Trees = GameObject.Find("pool_Trees"); ;
@@ -69,6 +70,7 @@
         pool_DesertFormations = GameObject.Find("pool_DesertFormations");
         pool_Bridges = GameObject.Find("pool_Bridges");
         pool_Waves = GameObject.Find("pool_Waves");
+        pool_Rollers = GameObject.Find("pool_Rollers");
 
         TrafficList = new List.<GameObject>();
         CloudsList = new List.<GameObject>();
@@ -79,6 +81,7 @@
         DesertFormationsList = new List.<GameObject>();
         BridgesList = new List.<GameObject>();
         WavesList = new List.<GameObject>();
+        RollersList = new List.<GameObject>();
 
         poolListsContainer = new List.<List.<GameObject> >();
         poolListsContainer.Add(TrafficList);
@@ -90,6 +93,7 @@
         poolListsContainer.Add(DesertFormationsList);
         poolListsContainer.Add(BridgesList);
         poolListsContainer.Add(WavesList);
+        poolListsContainer.Add(RollersList);
 
         //Populate pools
         PopulatePool(spawnableTraffic, pool_Traffic, TrafficList, 20, false);
@@ -101,19 +105,23 @@
         PopulatePool(spawnableNature[5], pool_DesertFormations, DesertFormationsList, 12, false);
         PopulatePool(spawnableBuildings[1], pool_Bridges, BridgesList, 15, false);
         PopulatePool(spawnableNature[6], pool_Waves, WavesList, 15, false);
+        PopulatePool(spawnableNature[3], pool_Rollers, RollersList, 5, false);
 
         playerSpeed = GameControllerScript.playerSpeed;
+
         landscapeDuration = Random.Range(20, 30);
 
         ChangeLandscape();
 
         StartCoroutine(RoadPopulator());
         StartCoroutine(TerrainPopulator());
+        StartCoroutine(BonusItemSpawner());
     }
 
     // Update is called once per frame
     function Update()
     {
+
         playerSpeed = GameControllerScript.playerSpeed;
 
         //landscape control
@@ -126,12 +134,29 @@
             landscapeDuration -= Time.deltaTime;
         
     }
-    
+
+    private function BonusItemSpawner(): IEnumerator
+    {
+        while (true)
+        {
+            if (currentLandscape == landscapePresets.desert)
+            {
+                tempSpawnPosition.Set(Random.Range(-5f, -10f), 0.7f, Random.Range(300f, 450f));
+                SpawnObject(RollersList, tempSpawnPosition, tempSpawnRotation);
+            }
+             var waitTime: float = spawnrateRoller / (playerSpeed / 70);
+            if (waitTime <= 0)
+                waitTime = 0.1f;
+
+            yield WaitForSeconds(waitTime);
+        }
+    }
+
     private function RoadPopulator(): IEnumerator
     {
         while (true)
         {
-            Debug.Log("hello");
+            //Debug.Log("hello");
             //cars
             //1 or 2
             var tempAmountCars: int = Random.Range(1, 3);
@@ -163,11 +188,13 @@
             }
             
 
-            var waitTime: float = (spawnrateRoad / playerSpeed / 70f);
-            if (waitTime <= 0.33)
-                waitTime = 0.33;
-            if (playerSpeed <= 0)
-            	waitTime = 2f;
+            var waitTime: float = spawnrateRoad / (playerSpeed / 70);
+           //	if (waitTime <= 0.33)
+             //	  waitTime = 0.33;
+            //if (playerSpeed <= 0)
+            //	waitTime = 5f;
+            	if (waitTime <= 0)
+                waitTime = 0.1f;
             yield WaitForSeconds(waitTime);
         }
     }
@@ -225,6 +252,17 @@
                     tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
                     SpawnObject(BushesList, tempSpawnPosition, tempSpawnRotation);
 
+                    //Trees
+					for (i = 0; i < 5; i++)
+					{
+						tempSpawnPosition.Set(Random.Range(8, 250), 4, Random.Range(-90, 0));
+						tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+						SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
+
+						tempSpawnPosition.Set(Random.Range(-8, -250), 4, Random.Range(-90, 0));
+						tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
+						SpawnObject(TreesList, tempSpawnPosition, tempSpawnRotation);
+					}
                     break;
                 case landscapePresets.desert:
                     //Cactuses
@@ -273,11 +311,11 @@
             }
             
 
-            var waitTime: float = spawnrateTerrain / (playerSpeed / 100);
+            var waitTime: float = spawnrateTerrain / (playerSpeed / 100f);
             if (waitTime <= 0)
-                waitTime = 0.01;
+                waitTime = 0.01f;
 
-            yield  WaitForSeconds(waitTime);
+            yield WaitForSeconds(waitTime);
         }
     }
 
@@ -335,29 +373,29 @@
         switch (randomPreset)
         {
             case 0:
-                //if (currentLandscape == landscapePresets.city || previousLandscape == landscapePresets.city)
-                //    goto case 1;
+                if (currentLandscape == landscapePresets.city || previousLandscape == landscapePresets.city)
+                    randomPreset = 1;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.city;
                 landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
                 break;
             case 1:
-                //if (currentLandscape == landscapePresets.forest || previousLandscape == landscapePresets.forest)
-                //    goto case 2;
+                if (currentLandscape == landscapePresets.forest || previousLandscape == landscapePresets.forest)
+                    randomPreset = 2;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.forest;
                 landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
                 break;
             case 2:
-                //if (currentLandscape == landscapePresets.desert || previousLandscape == landscapePresets.desert)
-                //    goto case 3;
+                if (currentLandscape == landscapePresets.desert || previousLandscape == landscapePresets.desert)
+                    randomPreset = 3;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.desert;
                 landscapeDuration = Random.Range(20 - playerSpeed / 100, 30 - playerSpeed / 100);
                 break;
             case 3:
-                //if (currentLandscape == landscapePresets.ocean || previousLandscape == landscapePresets.ocean)
-                //    goto case 0;
+                if (currentLandscape == landscapePresets.ocean || previousLandscape == landscapePresets.ocean)
+                    randomPreset = 0;
                 previousLandscape = currentLandscape;
                 currentLandscape = landscapePresets.ocean;
                 landscapeDuration = 2;
@@ -369,10 +407,10 @@
         //Match terrain with landscape
         var currentTerrainNumber = -1;
         switch (currentLandscape)
-        {
+        {        	
             case landscapePresets.city:
                 var pos = LandscapeTerrain[0].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[0].transform.position = pos;
 
                 LandscapeTerrain[0].SetActive(true);
@@ -381,33 +419,31 @@
                 break;
             case landscapePresets.forest:
                 pos = LandscapeTerrain[1].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[1].transform.position = pos;
-
                 LandscapeTerrain[1].SetActive(true);
 
                 currentTerrainNumber = 1;
                 break;
             case landscapePresets.desert:
                 pos = LandscapeTerrain[2].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[2].transform.position = pos;
-
                 LandscapeTerrain[2].SetActive(true);
 
                 currentTerrainNumber = 2;
                 break;
             case landscapePresets.ocean:
                 pos = LandscapeTerrain[3].transform.position;
-                pos.y = 0;
+                pos.y = 0f;
                 LandscapeTerrain[3].transform.position = pos;
-
+                Debug.Log(currentLandscape);
                 LandscapeTerrain[3].SetActive(true);
 
                 currentTerrainNumber = 3;
                 break;
         }
-
+       
         //For all other terrains do:
         for (var i: int = 0; i < 4; i++)
         {

@@ -32,8 +32,18 @@ import System.Collections.Generic;
         WorldControllerScript = GameObject.Find("GameScripts").GetComponent.<WorldController>();
 
         playerSpeed = GameControllerScript.playerSpeed;
-
-        myPool = WorldControllerScript.poolListsContainer[0];
+        switch (this.tag)
+        {
+            case "Traffic":
+                myPool = WorldControllerScript.poolListsContainer[0];
+                break;
+            case "Stepperollers":
+                myPool = WorldControllerScript.poolListsContainer[9];
+                break;
+            default:
+                break;
+        }
+        //myPool = WorldControllerScript.poolListsContainer[0];
     }
 
     // Update is called once per frame
@@ -50,6 +60,19 @@ import System.Collections.Generic;
             {
                 gameObject.SetActive(false);
                 myPool.Add(gameObject);
+            }
+        }
+        else if (this.tag == "Stepperollers")
+        {
+            transform.Translate(0.05f, 0, 0.006f, Space.World);
+            transform.Translate(0, 0, (playerSpeed / 4 * Time.deltaTime), Space.World);
+            transform.Rotate(-1f, 0, -5f);
+
+            if (transform.position.z >= 560)
+            {
+                gameObject.SetActive(false);
+                if (myPool != null)
+                    myPool.Add(gameObject);
             }
         }
     }
