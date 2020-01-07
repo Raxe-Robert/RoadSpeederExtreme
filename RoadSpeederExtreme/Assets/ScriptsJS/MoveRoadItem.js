@@ -68,6 +68,17 @@ import System.Collections.Generic;
             transform.Translate(0, 0, (playerSpeed / 4 * Time.deltaTime), Space.World);
             transform.Rotate(-1f, 0, -5f);
 
+            //Between -5 and -2.2 = right
+            if (transform.position.x < -5 && transform.position.x > -2.2)
+                currentLane = roadLanes.right;
+            //Between -2.2 and 2.2 = middle;
+            else if (transform.position.x > -2.2 && transform.position.x < 2.2)
+                currentLane = roadLanes.middle;
+            //Between 2.2 and 5 = left;
+            else if (transform.position.x > 2.2 && transform.position.x < 5)
+                currentLane = roadLanes.left;
+
+
             if (transform.position.z >= 560)
             {
                 gameObject.SetActive(false);

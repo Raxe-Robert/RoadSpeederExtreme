@@ -49,7 +49,7 @@ import UnityEngine.UI;
 
     function NewMessage(text: String)
     {
-        for (i = 0; i < scoreMessagesList.Count; i++)
+        for (var i: int = 0; i < scoreMessagesList.Count; i++)
         {
         	var messageObject = scoreMessagesList[i];
             if (messageObject.isActiveAndEnabled == false)

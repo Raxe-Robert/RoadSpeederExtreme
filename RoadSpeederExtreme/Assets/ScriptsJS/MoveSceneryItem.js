@@ -78,11 +78,11 @@
 
             if (transform.position.z > 100 && disableAllOtherTerrains == true)
             {
-            Debug.Log(WorldControllerScript.LandscapeTerrain.Length);
-                for (i = 0; i < WorldControllerScript.LandscapeTerrain.Length; i++ )
+            //Debug.Log(WorldControllerScript.LandscapeTerrain.Length);
+            for (var i: int = 0; i < WorldControllerScript.LandscapeTerrain.Length; i++ )
                 {                	
                 	var terrain = WorldControllerScript.LandscapeTerrain[i];
-                    if (terrain != this.name && terrain.transform.position.z > 100)
+                    if (terrain.name != this.name && terrain.transform.position.z > 100)
                     {
                         var posOther = terrain.transform.position;
                         posOther.z = -500;

@@ -210,7 +210,7 @@
             {
                 case landscapePresets.forest:
                     //Trees
-                    for (var i: int = 0; i < 30; i++)
+                    for (var i = 0; i < 30; i++)
                     {
                         tempSpawnPosition.Set(Random.Range(8, 250), 4, Random.Range(-90, 0));
                         tempSpawnRotation.Set(0, Random.Range(0, 360), 0, tempSpawnRotation.w);
@@ -437,7 +437,7 @@
                 pos = LandscapeTerrain[3].transform.position;
                 pos.y = 0f;
                 LandscapeTerrain[3].transform.position = pos;
-                Debug.Log(currentLandscape);
+                //Debug.Log(currentLandscape);
                 LandscapeTerrain[3].SetActive(true);
 
                 currentTerrainNumber = 3;
@@ -445,7 +445,7 @@
         }
        
         //For all other terrains do:
-        for (var i: int = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             if (i != currentTerrainNumber && LandscapeTerrain[i].transform.position.z <= 100)
             {

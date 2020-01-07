@@ -16,9 +16,35 @@ import UnityEngine.UI;
     }
 	
 	// Update is called once per frame
-	function Update() {
+    function Update() {
+
+        if (Input.touchCount > 0) {
+            var touch = Input.GetTouch(0);
+            if (touch.position.x < Screen.width / 2) {
+                if (currentLane == lanes.middle) {
+                    currentLane = lanes.left;
+                    transform.position = new Vector3(3.5, 0.75, 497);
+                }
+
+                else if (currentLane == lanes.right) {
+                    currentLane = lanes.middle;
+                    transform.position = new Vector3(0, 0.75, 497);
+                }
+            }
+            else if (touch.position.x >= Screen.width / 2) {
+                if (currentLane == lanes.left) {
+                    currentLane = lanes.middle;
+                    this.transform.position = new Vector3(0, 0.75, 497);
+                }
+                else if (currentLane == lanes.middle) {
+                    currentLane = lanes.right;
+                    transform.position = new Vector3(-3.5, 0.75, 497);
+                }
+            }
+        }
+
 		
-		if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+		else if(Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
 		{
 			if (currentLane == lanes.middle)
 			{
@@ -32,7 +58,7 @@ import UnityEngine.UI;
 				transform.position = new Vector3(0, 0.75, 497);
 			}
 		}
-		if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+		else if(Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
 		{
 			if (currentLane == lanes.left)
 			{
@@ -76,9 +102,11 @@ import UnityEngine.UI;
 		}
 		if (other.gameObject.tag == "Stepperollers")
         {
-            var scoreToAddBonus: int = 1000;
-            GameControllerScript.playerScore += scoreToAddBonus;
-            UIhandlerScript.NewMessage(scoreToAddBonus.ToString());
+            if (currentLane.ToString() == otherScript.currentLane.ToString()) {
+                var scoreToAddBonus: int = 1000;
+                GameControllerScript.playerScore += scoreToAddBonus;
+                UIhandlerScript.NewMessage(scoreToAddBonus.ToString());
+            }
         }
 	}
 
